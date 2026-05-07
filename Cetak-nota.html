@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧾 CETAK NOTA - TOKO SAYA</title>
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box; font-family:Arial;}
+        body {background:#ecf0f1; padding:20px;}
+        .panel {background:white; border-radius:8px; padding:22px; max-width:420px; margin:30px auto; box-shadow:0 2px 10px #00000018;}
+        h2 {color:#e74c3c; text-align:center; margin-bottom:20px;}
+        .nota {border:2px dashed #333; padding:15px; margin-bottom:15px;}
+        .judul {text-align:center; font-weight:bold; font-size:18px; margin-bottom:10px;}
+        .baris {display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dashed #ccc;}
+        .total {font-weight:bold; font-size:16px; margin-top:10px;}
+        .tombol {background:#f39c12; color:white; padding:10px; text-align:center; border-radius:4px; text-decoration:none; display:block; margin-top:15px; font-weight:bold;}
+        .cetak {background:#27ae60; color:white; border:none; padding:8px 12px; border-radius:4px; width:100%; font-weight:bold; margin-bottom:10px;}
+        @media print{body{background:none; padding:0;} .panel{box-shadow:none; margin:0; max-width:100%;} .tombol,.cetak{display:none;}}
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <h2>🧾 NOTA PENJUALAN</h2>
+        <div class="nota" id="isNota"></div>
+        <button class="cetak" onclick="window.print()">🖨️ CETAK NOTA</button>
+        <a href="admin.html" class="tombol">⬅️ KEMBALI KE MENU</a>
+    </div>
+
+<script>
+let riwayat = JSON.parse(localStorage.getItem("riwayatJual")||"[]");
+let kotak = document.getElementById("isNota");
+if(riwayat.length===0){kotak.innerHTML=`<p style="text-align:center">Belum ada transaksi</p>`;}
+else{let r=riwayat[0];
+kotak.innerHTML=`
+    <div class="judul">TOKO SAYA<br>NOTA PENJUALAN</div>
+    <p style="text-align:center; margin-bottom:10px">${r.waktu}</p>
+    <div class="baris"><span>Barang:</span><span>${r.nama}</span></div>
+    <div class="baris"><span>Jumlah:</span><span>${r.jumlah}</span></div>
+    <div class="baris total"><span>TOTAL:</span><span>Rp ${r.total.toLocaleString('id-ID')}</span></div>
+    <div class="baris"><span>Bayar:</span><span>Rp ${r.bayar.toLocaleString('id-ID')}</span></div>
+    <div class="baris"><span>Kembali:</span><span>Rp ${r.kembali.toLocaleString('id-ID')}</span></div>
+    <p style="text-align:center; margin-top:15px; font-style:italic">Terima Kasih!</p>
+`;}
+</script>
+</body>
+</html>
