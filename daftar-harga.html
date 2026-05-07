@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📄 DAFTAR HARGA - WAE RUA INDOMARET</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js"></script>
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box; font-family:Arial;}
+        body {background:#ecf0f1; padding:20px;}
+        .panel {background:white; border-radius:8px; padding:22px; max-width:420px; margin:30px auto; box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+        h2 {color:#8e44ad; text-align:center; margin-bottom:20px; font-size:22px;}
+        .beranda {display:block; padding:11px; background:#34495e; color:white; border-radius:4px; text-align:center; text-decoration:none; font-weight:bold; margin-bottom:20px;}
+        .barang-item {padding:10px 8px; border-bottom:1px dashed #ddd; display:flex; justify-content:space-between; align-items:center;}
+        .nama {font-weight:bold; font-size:16px;}
+        .harga {color:#27ae60; font-weight:bold; font-size:16px;}
+        .kosong {text-align:center; color:#666; padding:30px 0;}
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <h2>📄 DAFTAR HARGA BARANG<br>WAE RUA INDOMARET</h2>
+        <a href="index.html" class="beranda">🏪 KEMBALI KE BERANDA</a>
+        <div id="daftarBarang"><div class="kosong">⏳ Memuat daftar harga...</div></div>
+    </div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCgG9W3YdQeB8tBw0KqX9gYdQeRfTkUaM",
+  authDomain: "toko-saya-efos.firebaseapp.com",
+  databaseURL: "https://toko-saya-efos-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "toko-saya-efos",
+  storageBucket: "toko-saya-efos.appspot.com",
+  messagingSenderId: "339472859447",
+  appId: "1:33947
