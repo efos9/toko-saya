@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 WAE RUA INDOMARET - HALAMAN PEMILIK</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js"></script>
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box; font-family:Arial;}
+        body {background:#ecf0f1; padding:20px;}
+        .panel {background:white; border-radius:8px; padding:22px; max-width:420px; margin:30px auto; box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+        h2 {color:#27ae60; text-align:center; margin-bottom:20px;}
+        h3 {color:#333; border-bottom:1px solid #ccc; padding-bottom:5px; margin:20px 0 10px;}
+        label {display:block; margin:12px 0 5px; font-weight:bold;}
+        input, select {width:100%; padding:9px; border:1px solid #ccc; border-radius:4px; font-size:15px;}
+        button {width:100%; padding:11px; color:white; border:none; border-radius:4px; font-weight:bold; margin-top:8px; font-size:16px; cursor:pointer;}
+        .hijau {background:#27ae60;} .biru {background:#2980b9;} .oren {background:#f39c12;}
+        .ungu {background:#8e44ad;} .merah {background:#e74c3c;} .hijau-muda {background:#16a085;}
+        .pesan {padding:10px; background:#d4edda; color:#155724; border-radius:4px; margin-top:12px; display:none; text-align:center; font-weight:bold;}
+        .kotak-laporan {background:#fef3cd; padding:12px; border-radius:6px; margin-top:15px; color:#856404; font-weight:bold; text-align:center; font-size:17px;}
+        .barang-item {display:flex; justify-content:space-between; align-items:center; padding:8px; border-bottom:1px dashed #ddd; margin:4px 0;}
+        .menu-pilih {position:relative; margin:12px 0;}
+        .tombol-pilih {width:100%; text-align:left; background:#f1f1f1; color:#333; border:1px solid #ccc;}
+        .daftar-pilih {display:none; position:absolute; width:100%; background:white; border:1px solid #ccc; border-top:none; z-index:999; max-height:220px; overflow-y:auto; border-radius:0 0 6px 6px;}
+        .daftar-pilih a {display:block; padding:9px 12px; text-decoration:none; color:#333; border-bottom:1px solid #eee;}
+        .daftar-pilih a:hover {background:#e8f8f5;} .buka {display:block;}
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <h2>🔐 HALAMAN PEMILIK - WAE RUA INDOMARET</h2>
+        <div id="info" class="pesan">✅ Berhasil! Tersimpan di Internet!</div>
+
+        <div class="menu-pilih">
+            <button class="tombol-pilih" onclick="bukaTutup()">📋 MENU UTAMA ▼ Klik Buka</button>
+            <div id="menuDaftar" class="daftar-pilih">
+                <a href="catat.html">📝 CATAT PENJUALAN</a>
+                <a href="daftar-harga.html">📄 LIHAT DAFTAR HARGA</a>
+                <a href="cetak-nota.html">🧾 CETAK NOTA / STRUK</a>
+                <a href="laporan.html">📋 LIHAT LAPORAN LENGKAP</a>
+                <a href="index.html">🏪 TAMPILAN UTAMA TOKO</a>
+            </div>
+        </div>
+
+        <h3>➕ MASUKKAN BARANG BARU</h3>
+        <label>Nama Barang:</label><input type="text" id="namaBrg" placeholder="Kopi, Telur, Gula...">
+        <label>Harga Jual:</label><input type="number" id="hargaBrg" placeholder="Misal: 3000">
+        <label>Stok Masuk:</label><input type="number" id="stokBrg" placeholder="Misal: 50">
+        <button class="hijau-muda" onclick="tambahBarang()">✅ SIMPAN KE INTERNET</button>
+
+        <h3>📋 DAFTAR SEMUA BARANG</h3>
+        <div id="daftarBarang"><div class="barang-item">Memuat data...</div></div>
+
+        <h3>💰 KEUANGAN</h3>
+        <label>Total Masuk:</label><input type="number" id="omset" value="0">
+        <label>Total Keluar:</label><input type="number" id="keluar" value="0">
+        <div class="kotak-laporan">KEUNTUNGAN: <span id="hasil-untung">Rp 0</span></div>
+        <button class="hijau" onclick="simpanKeuangan()">💾 SIMPAN KE INTERNET</button>
+        <button class="ungu" onclick="hitungUntung()">📊 HITUNG</button>
+    </div>
+
+<script>
+const SANDI_BOS = "1234"; 
+let cek = prompt("⚠️ KHUSUS PEMILIK ⚠️\nMasukkan Sandi:");
+if(cek !== SANDI_BOS) {alert("❌ SALAH SANDI!"); document.body.innerHTML="";}
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCgG9W3YdQeB8tBw0KqX9gYdQeRfTkUaM",
+  authDomain: "toko-saya-efos.firebaseapp.com",
+  databaseURL: "https://toko-saya-efos-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "toko-saya-efos",
+  storageBucket: "toko-saya-efos.appspot.com",
+  messagingSenderId: "339472859447",
+  appId: "1:339472859447:web:8d7f4c3e2b7f9a6d8e7f4c"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function bukaTutup(){document.getElementById("menuDaftar").classList.toggle("buka");}
+document.onclick=e=>{if(!e.target.matches('.tombol-pilih')) document.getElementById("menuDaftar").classList.remove("buka");}
+
+function tambahBarang(){
+    let nama=document.getElementById("namaBrg").value.trim();
+    let harga=parseInt(document.getElementById("hargaBrg").value);
+    let stok=parseInt(document.getElementById("stokBrg").value);
+    if(!nama||!harga||!stok) return alert("❌ Isi lengkap!");
+
+    db.ref("barang/"+nama.replace(/\s/g,"_")).set({nama,harga,stok})
+    .then(()=>{
+        document.getElementById("info").style.display="block"; setTimeout(()=>document.getElementById("info").style.display="none",2500);
+        document.getElementById("namaBrg").value=document.getElementById("hargaBrg").value=document.getElementById("stokBrg").value="";
+        tampilkanDaftar(); // LANGSUNG MUNCUL TANPA MUAT ULANG
+    })
+}
+
+function tampilkanDaftar(){
+    db.ref("barang").on('value',snap=>{
+        let data = snap.val(); let kotak=document.getElementById("daftarBarang"); kotak.innerHTML="";
+        if(!data){kotak.innerHTML=`<div class="barang-item">Belum ada barang</div>`;return;}
+        Object.values(data).forEach((brg,i)=>{
+            kotak.innerHTML+=`<div class="barang-item"><div><b>${brg.nama}</b><br><small>Rp ${brg.harga.toLocaleString('id-ID')} | Stok: ${brg.stok}</small></div>
+            <button class="merah" style="padding:3px 7px;font-size:12px" onclick="hapusBarang('${brg.nama}')">🗑️</button></div>`;
+        })
+    })
+}
+
+function hapusBarang(nama){
+    if(confirm(`Hapus ${nama}?`)) db.ref("barang/"+nama.replace(/\s/g,"_")).remove()
+}
+
+function simpanKeuangan(){
+    db.ref("keuangan").set({
+        omset:document.getElementById("omset").value,
+        keluar:document.getElementById("keluar").value
+    }).then(()=>{
+        document.getElementById("info").style.display="block"; setTimeout(()=>document.getElementById("info").style.display="none",2500);
+    })
+}
+function hitungUntung(){
+    db.ref("keuangan").once('value',snap=>{
+        let d=snap.val();
+        let m=parseInt(d.omset||0);
+        let k=parseInt(d.keluar||0);
+        document.getElementById("hasil-untung").innerText="Rp "+(m-k).toLocaleString('id-ID');
+    })
+}
+window.onload=tampilkanDaftar;
+</script>
+</body>
+</html>
