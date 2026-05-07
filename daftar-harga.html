@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📄 DAFTAR HARGA - WAE RUA INDOMARET</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js"></script>
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box; font-family:Arial;}
+        body {background:#ecf0f1; padding:20px;}
+        .panel {background:white; border-radius:8px; padding:22px; max-width:420px; margin:30px auto; box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+        h2 {color:#8e44ad; text-align:center; margin-bottom:20px; font-size:22px;}
+        .kembali {display:block; width:100%; padding:11px; background:#f39c12; color:white; border:none; border-radius:4px; font-weight:bold; text-align:center; text-decoration:none; margin-bottom:20px; font-size:16px;}
+        .barang-item {padding:10px 8px; border-bottom:1px dashed #ddd; display:flex; justify-content:space-between; align-items:center;}
+        .nama {font-weight:bold; font-size:16px;}
+        .harga {color:#27ae60; font-weight:bold; font-size:16px;}
+        .kosong {text-align:center; color:#666; padding:30px 0;}
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <h2>📄 DAFTAR HARGA BARANG<br>WAE RUA INDOMARET</h2>
+        <a href="index.html" class="kembali">⬅️ KEMBALI KE BERANDA</a>
+
+        <div id="daftarBarang">
+            <div class="kosong">⏳ Memuat daftar harga...</div>
+        </div>
+    </div>
+
+<script>
+// ✅ TANPA SANDI! PELANGGAN CUMA BISA LIHAT SAJA, GAK BISA UBAH
+const firebaseConfig = {
+  apiKey: "AIzaSyCgG9W3YdQeB8tBw0KqX9gYdQeRfTkUaM",
+  authDomain: "toko-saya-efos.firebaseapp.com",
+  databaseURL: "https://toko-saya-efos-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "toko-saya-efos",
+  storageBucket: "toko-saya-efos.appspot.com",
+  messagingSenderId: "339472859447",
+  appId: "1:339472859447:web:8d7f4c3e2b7f9a6d8e7f4c"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// ✅ BACA SEMUA BARANG & TAMPILKAN RAPI BUAT PELANGGAN
+function tampilkanHarga(){
+    db.ref("barang").on('value', snap => {
+        let data = snap.val();
+        let kotak = document.getElementById("daftarBarang");
+        kotak.innerHTML = "";
+
+        if(!data){
+            kotak.innerHTML = `<div class="kosong">❌ Belum ada barang dimasukkan pemilik</div>`;
+            return;
+        }
+
+        // Tampilkan satu per satu, cuma nama & harga saja
+        Object.values(data).forEach(brg => {
+            kotak.innerHTML += `
+            <div class="barang-item">
+                <div class="nama">${brg.nama}</div>
+                <div class="harga">Rp ${brg.harga.toLocaleString('id-ID')}</div>
+            </div>`;
+        })
+    })
+}
+
+window.onload = tampilkanHarga;
+</script>
+</body>
+</html>
