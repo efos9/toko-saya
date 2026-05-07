@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏪 WAE RUA INDOMARET</title>
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box; font-family:Arial;}
+        body {background:#ecf0f1; padding:20px;}
+        .panel {background:white; border-radius:8px; padding:30px 22px; max-width:420px; margin:30px auto; box-shadow:0 2px 10px rgba(0,0,0,0.1); text-align:center;}
+        h2 {color:#2c3e50; margin-bottom:15px; font-size:22px;}
+        .deskripsi {color:#666; margin-bottom:25px; line-height:1.5;}
+        .tombol {display:block; padding:14px; margin:12px 0; border-radius:6px; text-decoration:none; font-weight:bold; font-size:17px; border:none; cursor:pointer; width:100%;}
+        .masuk {background:#27ae60; color:white;}
+        .lihat {background:#3498db; color:white;}
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <h2>🏪 SELAMAT DATANG DI WAE RUA INDOMARET</h2>
+        <p class="deskripsi">Aplikasi pencatatan barang, penjualan dan laporan keuangan. Data tersimpan aman di internet.</p>
+        
+        <!-- ✅ SANDI CUMA ADA DI SINI SAJA -->
+        <button class="tombol masuk" onclick="cekSandi()">🔐 MASUK SEBAGAI PEMILIK</button>
+        <a href="daftar-harga.html" class="tombol lihat">📄 LIHAT DAFTAR HARGA</a>
+    </div>
+
+<script>
+const SANDI_BOS = "1234";
+
+function cekSandi(){
+    // Kalau pernah masuk → langsung buka, gak minta lagi
+    if(localStorage.getItem("sudah_login") === "ya"){
+        window.location.href="admin.html";
+        return;
+    }
+    // Pertama kali → minta sandi
+    let masuk = prompt("⚠️ KHUSUS PEMILIK ⚠️\nMasukkan Sandi:");
+    if(masuk === SANDI_BOS){
+        localStorage.setItem("sudah_login","ya"); // Simpan selamanya
+        window.location.href="admin.html";
+    }else{
+        alert("❌ SANDI SALAH! GAK BISA MASUK!");
+    }
+}
+</script>
+</body>
+</html>
