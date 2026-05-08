@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 DASHBOARD PEMILIK - WAE RUA INDOMARET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box; font-family:Arial;}
+        body {background:#f8f9fa;}
+
+        .header {background:#16a085; color:white; padding:15px; width:100%; text-align:center;}
+        .konten {padding:20px; max-width:420px; margin:auto; width:100%;}
+        .kotak-grafik {background:white; border-radius:12px; padding:25px; margin:15px 0; box-shadow:0 4px 12px rgba(0,0,0,0.1); text-align:center;}
+        .baris-tombol {display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px;}
+        .tombol {padding:18px 15px; border-radius:10px; color:white; font-weight:bold; font-size:16px; border:none; cursor:pointer; text-decoration:none; text-align:center;}
+        .ungu {background:#8e44ad;}
+        .biru {background:#2980b9;}
+        .merah {background:#e74c3c;}
+        .hijau {background:#16a085;}
+        .kembali {display:block; padding:12px; background:#6c5ce7; color:white; border-radius:8px; text-align:center; text-decoration:none; font-weight:bold; margin-top:25px;}
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1 style="font-size:20px; font-weight:bold;">📊 DASHBOARD PEMILIK</h1>
+    <p>WAE RUA INDOMARET</p>
+</div>
+
+<div class="konten">
+    <div class="kotak-grafik">
+        <h3 style="font-size:17px; font-weight:bold; color:#333;">📈 GRAFIK PENDAPATAN</h3>
+        <p style="color:#777; margin-top:10px;">Data akan muncul otomatis setelah catat penjualan</p>
+    </div>
+
+    <div class="kotak-grafik">
+        <h3 style="font-size:17px; font-weight:bold; color:#333;">📉 GRAFIK BARANG TERJUAL</h3>
+        <p style="color:#777; margin-top:10px;">Data akan muncul otomatis setelah catat penjualan</p>
+    </div>
+
+    <div class="baris-tombol">
+
+    <!-- ✅ INI 2 TOMBOL BARU SAYA TAMBAHKAN -->
+    <a href="barang-masuk-foto.html" class="tombol biru-tua">📸 BARANG MASUK - UPLOAD FOTO</a>
+    <a href="barang-keluar.html" class="tombol merah">📤 BARANG KELUAR / TERJUAL</a>
+
+    <!-- ✅ YANG DI BAWAH INI BIARKAN SAMA PERSIS JANGAN DIUBAH -->
+    <a href="catat.html" class="tombol ungu">📝 CATAT PENJUALAN</a>
+    <a href="daftar-harga.html" class="tombol biru">📄 LIHAT HARGA</a>
+    <a href="cetak-nota.html" class="tombol merah">🧾 CETAK NOTA</a>
+    <a href="laporan.html" class="tombol hijau">📊 LAPORAN LENGKAP</a>
+
+</div>
+
+
+    <a href="index.html" class="kembali">🔙 KEMBALI KE BERANDA</a>
+</div>
+
+</body>
+</html>
