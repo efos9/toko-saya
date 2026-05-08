@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wae Rua Indomaret - Beranda</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F766E',
+                        secondary: '#14B8A6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        .menu-samping {
+            transform: translateX(-100%);
+            transition: all 0.3s ease;
+        }
+        .menu-samping.buka {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+    <!-- ✅ TOMBOL BUKA MENU -->
+    <div class="p-4 bg-primary text-white flex items-center justify-between shadow-md">
+        <button id="tombolMenu" class="text-2xl">☰</button>
+        <h1 class="font-bold text-lg">WAE RUA INDOMARET</h1>
+        <div></div>
+    </div>
+
+
+    <!-- ✅ MENU SAMPING LENGKAP - SUDAH BENAR SEMUA -->
+    <div id="menuSamping" class="menu-samping fixed top-0 left-0 h-full w-4/5 bg-primary text-white z-50 shadow-2xl pt-4">
+        <div class="text-center mb-4 pb-3 border-b border-teal-400">
+            <h2 class="font-bold text-xl">📋 MENU UTAMA</h2>
+            <p class="text-sm opacity-80">Wae Rua - Lamba Leda - Manggarai Timur</p>
+        </div>
+
+        <div class="menu-item">
+            <a href="index.html" class="flex items-center gap-3 py-3 px-4 border-b border-teal-400 hover:bg-teal-700">
+                <span>🏠</span> Beranda
+            </a>
+
+            <!-- ✅ SUDAH ADA BARANG MASUK & KELUAR -->
+            <a href="barang-masuk-foto.html" class="flex items-center gap-3 py-3 px-4 border-b border-teal-400 hover:bg-teal-700">
+                <span>📸</span> Barang Masuk (Upload Foto)
+            </a>
+            <a href="barang-keluar.html" class="flex items-center gap-3 py-3 px-4 border-b border-teal-400 hover:bg-teal-700">
+                <span>📤</span> Barang Keluar / Terjual
+            </a>
+
+            <a href="daftar-harga.html" class="flex items-center gap-3 py-3 px-4 border-b border-teal-400 hover:bg-teal-700">
+                <span>📦</span> Daftar Barang / Harga
+            </a>
+            <a href="https://wa.me/6281327913004" target="_blank" class="flex items-center gap-3 py-3 px-4 border-b border-teal-400 hover:bg-teal-700">
+                <span>📞</span> Hubungi Kami
+            </a>
+            <a href="tentang.html" class="flex items-center gap-3 py-3 px-4 border-b border-teal-400 hover:bg-teal-700">
+                <span>ℹ️</span> Tentang Toko
+            </a>
+            <a href="admin.html" class="flex items-center gap-3 py-3 px-4 border-b border-teal-400 hover:bg-teal-700">
+                <span>🔐</span> Masuk Admin
+            </a>
+            <a href="#" class="flex items-center gap-3 py-3 px-4 border-b border-teal-400 hover:bg-teal-700">
+                <span>🔓</span> Keluar
+            </a>
+        </div>
+    </div>
+
+    <!-- ✅ LATAR GELAP KALAU MENU DIBUKA -->
+    <div id="latarTutup" class="fixed inset-0 bg-black/50 z-40 hidden"></div>
+
+
+    <!-- ✅ ISI TAMPILAN BERANDA -->
+    <div class="p-5 text-center">
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-5">
+            <h2 class="text-xl font-bold text-primary mb-2">Selamat Datang di Wae Rua Indomaret</h2>
+            <p class="text-gray-600">Melayani kebutuhan Anda sehari-hari<br>Wae Rua, Kec. Lamba Leda, Kab. Manggarai Timur 📞 081327913004</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <a href="daftar-harga.html" class="bg-green-600 hover:bg-green-700 text-white p-4 rounded-xl shadow-md">
+                <span class="text-3xl">📦</span>
+                <p class="font-bold mt-2">LIHAT DAFTAR HARGA</p>
+            </a>
+            <a href="https://wa.me/6281327913004" target="_blank" class="bg-red-600 hover:bg-red-700 text-white p-4 rounded-xl shadow-md">
+                <span class="text-3xl">📞</span>
+                <p class="font-bold mt-2">HUBUNGI KAMI</p>
+            </a>
+        </div>
+    </div>
+
+
+    <script>
+        // ✅ FUNGSI BUKA TUTUP MENU
+        const tombolMenu = document.getElementById('tombolMenu');
+        const menuSamping = document.getElementById('menuSamping');
+        const latarTutup = document.getElementById('latarTutup');
+
+        tombolMenu.onclick = () => {
+            menuSamping.classList.add('buka');
+            latarTutup.classList.remove('hidden');
+        }
+
+        latarTutup.onclick = () => {
+            menuSamping.classList.remove('buka');
+            latarTutup.classList.add('hidden');
+        }
+    </script>
+
+</body>
+                         </html>
+  
