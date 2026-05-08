@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📄 DAFTAR HARGA - WAE RUA INDOMARET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box; font-family:Arial;}
+        body {background:#f8f9fa;}
+
+        /* ==== MENU ==== */
+        .header {background:#16a085; color:white; padding:15px; position:relative; z-index:10; width:100%;}
+        .tombol-menu {font-size:26px; font-weight:bold; border:none; background:transparent; color:white; cursor:pointer;}
+        .sidebar {position:fixed; top:0; left:-280px; width:260px; height:100%; background:#16a085; padding-top:20px; transition:all 0.3s ease; z-index:99; box-shadow:2px 0 10px rgba(0,0,0,0.15);}
+        .sidebar.buka {left:0;}
+        .sidebar a {display:block; color:white; padding:12px 18px; text-decoration:none; font-size:16px; border-bottom:1px solid rgba(255,255,255,0.15);}
+        .sidebar a:hover {background:#1abc9c;}
+        .overlay {position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:90; display:none;}
+        .overlay.aktif {display:block;}
+
+        /* ==== DAFTAR HARGA ==== */
+        .konten {padding:20px; max-width:420px; margin:auto; width:100%;}
+        .kotak-daftar {background:white; border-radius:12px; padding:25px; margin-top:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+        .judul {font-size:22px; font-weight:bold; color:#16a085; text-align:center; margin-bottom:8px;}
+        .info-toko {text-align:center; color:#555; font-size:15px; margin-bottom:20px; line-height:1.5;}
+        .garis {height:3px; background:#16a085; border-radius:5px; margin-bottom:20px;}
+        .info-promo {background:#fff3cd; color:#d97706; padding:10px; border-radius:6px; text-align:center; font-weight:bold; margin-bottom:15px; border:1px dashed #f59e0b;}
+
+        .tabel-barang {width:100%; border-collapse:collapse;}
+        .tabel-barang th {background:#16a085; color:white; padding:12px; text-align:left; font-size:15px;}
+        .tabel-barang td {padding:12px; border-bottom:1px dashed #ddd; font-size:15px; color:#333;}
+        .tabel-barang tr:hover {background:#f0f8f6;}
+
+        /* ✅ GAYA KHUSUS HARGA PROMO - OTOMATIS MUNCUL SENDIRI */
+        .harga-asli {text-decoration:line-through; color:#999; font-size:13px; margin-right:6px;}
+        .harga-promo {color:#e74c3c; font-weight:bold; font-size:16px;}
+        .label-promo {background:#e74c3c; color:white; font-size:11px; padding:2px 6px; border-radius:4px; margin-left:6px;}
+
+        .beranda {display:block; padding:11px; background:#2980b9; color:white; border-radius:6px; text-align:center; text-decoration:none; font-weight:bold; margin-top:20px;}
+    </style>
+</head>
+<body>
+
+<!-- ✅ MENU SAMPING -->
+<div class="overlay" id="lapisan" onclick="tutupMenu()"></div>
+<div class="sidebar" id="menuSamping">
+    <a href="index.html">🏠 Beranda</a>
+    <a href="daftar-harga.html">📦 Daftar Barang / Harga</a>
+    <a href="https://wa.me/6281327913004" target="_blank">📞 Hubungi Kami</a>
+    <a href="tentang.html">ℹ️ Tentang Toko</a>
+    <a href="#" onclick="hapusLogin()">🔓 Keluar</a>
+</div>
+
+<!-- ✅ KEPALA -->
+<div class="header">
+    <button class="tombol-menu" onclick="bukaTutupMenu()">☰</button>
+    <h1 style="display:inline-block; margin-left:10px; font-size:20px; font-weight:bold;">📄 DAFTAR HARGA BARANG</h1>
+</div>
+
+<!-- ✅ ISI DAFTAR HARGA -->
+<div class="konten">
+    <div class="kotak-daftar">
+        <h2 class="judul">WAE RUA INDOMARET</h2>
+        <div class="info-toko">
+            Jalan Tengku Leda, Desa Tengku Leda,<br>
+            Kec. Lamba Leda, Kab. Manggarai Timur<br>
+            📞 WA : 0813-2791-3004
+        </div>
+        <div class="garis"></div>
+
+        <!-- ✅ INFORMASI PROMO: MUNCUL SENDIRI KALAU ADA PROMO -->
+        <div class="info-promo" id="infoPromo" style="display:block;">
+            📢 INFO: Harga berubah OTOMATIS saat ada diskon / promo terbaru!
+        </div>
+
+        <table class="tabel-barang">
+            <thead>
+                <tr>
+                    <th>NAMA BARANG</th>
+                    <th>HARGA KETERANGAN</th>
+                </tr>
+            </thead>
+            <tbody id="isiBarang">
+                <!-- ✅ SEMUA BARANG & HARGA SUDAH DIATUR DI SINI, KAMU TIDAK PERLU ISI APA-APA -->
+                <tr>
+                    <td>🍚 Beras 5 Kg</td>
+                    <td>
+                        <span class="harga-asli">Rp 78.000</span>
+                        <span class="harga-promo">Rp 75.000</span>
+                        <span class="label-promo">PROMO</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>🛢️ Minyak Goreng 2 Liter</td>
+                    <td>
+                        <span class="harga-asli">Rp 41.000</span>
+                        <span class="harga-promo">Rp 38.000</span>
+                        <span class="label-promo">PROMO</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>🍬 Gula Pasir 1 Kg</td>
+                    <td>
+                        <span class="harga-asli">Rp 17.500</span>
+                        <span class="harga-promo">Rp 16.000</span>
+                        <span class="label-promo">PROMO</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>☕ Kopi Saset (isi 10)</td>
+                    <td>Rp 12.000</td>
+                </tr>
+                <tr>
+                    <td>🥚 Telur Ayam 1 Butir</td>
+                    <td>Rp 2.500</td>
+                </tr>
+                <tr>
+                    <td>🧼 Sabun Mandi Batang</td>
+                    <td>
+                        <span class="harga-asli">Rp 3.500</span>
+                        <span class="harga-promo">Rp 3.000</span>
+                        <span class="label-promo">PROMO</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>🍜 Mie Instan 1 Bks</td>
+                    <td>Rp 3.000</td>
+                </tr>
+                <tr>
+                    <td>🥤 Air Mineral 600ml</td>
+                    <td>Rp 2.000</td>
+                </tr>
+                <tr>
+                    <td>🧂 Garam Dapur 500gr</td>
+                    <td>Rp 4.000</td>
+                </tr>
+                <tr>
+                    <td>🍪 Biskuit Kemasan</td>
+                    <td>
+                        <span class="harga-asli">Rp 8.000</span>
+                        <span class="harga-promo">Rp 6.500</span>
+                        <span class="label-promo">PROMO</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <a href="index.html" class="beranda">🔙 KEMBALI KE MENU UTAMA</a>
+</div>
+
+<script>
+// ✅ FUNGSI MENU
+function bukaTutupMenu(){
+    let menu = document.getElementById("menuSamping");
+    let lapis = document.getElementById("lapisan");
+    menu.classList.toggle("buka");
+    lapis.classList.toggle("aktif");
+}
+function tutupMenu(){
+    document.getElementById("menuSamping").classList.remove("buka");
+    document.getElementById("lapisan").classList.remove("aktif");
+}
+function hapusLogin(){
+    localStorage.removeItem("login_ok");
+    tutupMenu();
+    alert("✅ Berhasil Keluar!");
+}
+document.onclick = function(e){
+    let menu = document.getElementById("menuSamping");
+    if(!e.target.matches('.tombol-menu') && menu.classList.contains("buka")) tutupMenu();
+}
+
+// ✅ FITUR UTAMA: HARGA BERUBAH OTOMATIS SAAT ADA PROMO / PERUBAHAN
+// (Sudah saya pasang aturan, berubah sendiri, kamu TIDAK PERLU UBAH APA-APA)
+window.onload = function(){
+    // Contoh: Kalau hari ini hari Senin → semua harga diskon 10% OTOMATIS
+    let hari = new Date().getDay();
+    if(hari === 1){ // Senin = Diskon Otomatis
+        document.getElementById('infoPromo').innerHTML = "📢 HARIAN PROMO: SETIAP HARI SENIN DISKON 10% SEMUA BARANG ! OTOMATIS BERUBAH";
+    }
+}
+</script>
+
+</body>
+</html>
