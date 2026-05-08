@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cetak Nota - Wae Rua Indomaret</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F766E',
+                        secondary: '#14B8A6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .nota {
+                width: 220px;
+                background: #fff;
+                border: 1px solid #000;
+                padding: 15px;
+                font-family: 'Courier New', monospace;
+                font-size: 13px;
+                line-height: 1.5;
+            }
+            .garis {
+                border-bottom: 1px dashed #000;
+                margin: 6px 0;
+            }
+            @media print {
+                body { background: white; }
+                .tombol-cetak { display: none !important; }
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 font-sans">
+    <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6">
+
+        <!-- BAGIAN NOTA - SUDAH SESUAI SEMUA -->
+        <div class="nota mx-auto mb-6">
+            <div class="text-center font-bold text-lg">📄 WAE RUA INDOMARET</div>
+            <div class="text-center">Wae Rua, Kec. Komodo<br>
+            Kab. Manggarai Barat, Nusa Tenggara Timur<br>
+            📞 081327913004</div>
+
+            <div class="garis"></div>
+
+            <div>Tanggal: <span id="tanggal"></span></div>
+            <div class="garis"></div>
+
+            <div class="font-bold flex justify-between text-base">
+                <span>TOTAL BAYAR</span>
+                <span id="total-harga">Rp 0</span>
+            </div>
+
+            <div class="garis"></div>
+
+            <div class="text-center text-sm mt-4">
+                Terima Kasih Sudah Berbelanja 🙏<br>
+                Barang yang sudah dibeli tidak bisa dikembalikan<br><br>
+                <strong>NEKA HEMONG MAI WELI KOLE</strong>
+            </div>
+        </div>
+
+        <button onclick="window.print()" class="tombol-cetak w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2">
+            <i class="fa fa-print"></i> CETAK NOTA
+        </button>
+
+        <div class="mt-4 text-center">
+            <a href="admin.html" class="text-blue-600 hover:underline">⬅️ Kembali ke Halaman Admin</a>
+        </div>
+
+    </div>
+
+    <script>
+        // Pasang tanggal otomatis
+        const sekarang = new Date();
+        const tgl = sekarang.getDate() + " / " + (sekarang.getMonth()+1) + " / " + sekarang.getFullYear();
+        document.getElementById("tanggal").textContent = tgl;
+
+        // Ambil total dari halaman catat
+        const total = localStorage.getItem("totalBelanja") || "0";
+        document.getElementById("total-harga").textContent = "Rp " + Number(total).toLocaleString("id-ID");
+    </script>
+
+</body>
+</html>
