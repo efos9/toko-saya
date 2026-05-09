@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Akun Baru - Toko Wae Rua</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        utama: '#008966',
+                        sekunder: '#165DFF',
+                        sukses: '#00C48C',
+                        bahaya: '#F53F3F',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-poppins min-h-screen py-6 px-4">
+    <div class="container mx-auto max-w-md">
+        <a href="index.html" class="inline-flex items-center gap-2 text-utama font-bold mb-6 hover:underline">
+            <i class="fa fa-arrow-left"></i> Kembali
+        </a>
+
+        <h2 class="text-center text-xl font-bold mb-2">Daftar Akun Bisnis Anda</h2>
+        <p class="text-center text-sm text-gray-500 mb-4">Lengkapi data di bawah ini untuk mendaftar</p>
+
+        <div class="bg-red-50 border border-red-200 text-red-700 p-3 rounded-xl mb-4 text-sm">
+            <p><span class="font-bold text-red-600">✕</span> Data aman tersimpan di HP anda, tidak dibagikan ke siapapun.</p>
+            <p class="mt-1"><span class="font-bold text-green-600">✓</span> Tiap pengguna punya akun sendiri-sendiri.</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-lg">
+            <form id="formDaftar" class="space-y-4">
+                <div>
+                    <label class="font-semibold mb-1 block flex items-center gap-2">
+                        <i class="fa fa-user text-gray-600"></i> Nama Akun / ID Pengguna *
+                    </label>
+                    <input type="text" id="dnama" placeholder="Contoh: TokoWaeRua / Kasir01" class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-utama" required>
+                </div>
+
+                <div>
+                    <label class="font-semibold mb-1 block flex items-center gap-2">
+                        <i class="fa fa-lock text-gray-600"></i> Kata Sandi / Password *
+                    </label>
+                    <input type="password" id="dsandi" placeholder="Buat sandi yang mudah diingat" class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-utama" required>
+                </div>
+
+                <hr class="border-dashed">
+
+                <div>
+                    <label class="font-semibold mb-1 block flex items-center gap-2">
+                        <i class="fa fa-building text-gray-600"></i> Nama Toko / Usaha *
+                    </label>
+                    <input type="text" id="dbisnis" placeholder="Contoh: Toko Wae Rua" class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-utama" required>
+                </div>
+
+                <div>
+                    <label class="font-semibold mb-1 block flex items-center gap-2">
+                        <i class="fa fa-map-marker text-gray-600"></i> Alamat Lengkap *
+                    </label>
+                    <textarea id="dalamat" placeholder="Desa Wae Rua, Kec. Lamba Leda, Manggarai Timur" class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-utama" required></textarea>
+                </div>
+
+                <div>
+                    <label class="font-semibold mb-1 block flex items-center gap-2">
+                        <i class="fa fa-phone text-gray-600"></i> Nomor HP / WhatsApp *
+                    </label>
+                    <input type="text" id="dhp" placeholder="0812-3456-7890" class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-utama" required>
+                </div>
+
+                <button type="submit" class="w-full bg-sukses text-white py-3 rounded-xl font-bold hover:bg-sukses/90 transition mt-2">
+                    <i class="fa fa-check"></i> ✅ SIMPAN & BUAT AKUN
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Simpan data akun ke penyimpanan HP
+        document.getElementById('formDaftar').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let akunBaru = {
+                nama: document.getElementById('dnama').value.trim(),
+                sandi: document.getElementById('dsandi').value.trim(),
+                namaToko: document.getElementById('dbisnis').value.trim(),
+                alamat: document.getElementById('dalamat').value.trim(),
+                hp: document.getElementById('dhp').value.trim()
+            };
+
+            // Cek apakah nama akun sudah ada
+            let semuaAkun = JSON.parse(localStorage.getItem('daftarAkun')) || [];
+            let cek = semuaAkun.find(a => a.nama.toLowerCase() === akunBaru.nama.toLowerCase());
+            if(cek) return alert('❌ Nama akun SUDAH ADA! Pakai nama lain.');
+
+            // Simpan
+            semuaAkun.push(akunBaru);
+            localStorage.setItem('daftarAkun', JSON.stringify(semuaAkun));
+            alert('✅ Berhasil daftar! Silakan masuk ke akun anda.');
+            window.location.href = 'login.html';
+        })
+    </script>
+</body>
+</html>
