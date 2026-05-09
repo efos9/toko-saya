@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport="width=device-width, initial-scale=1.0">
+    <title>Barang Keluar / Terjual - Wae Rua Indomaret</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        utama: '#00796b',
+                        sekunder: '#f5f7fa',
+                        merah: '#e53935',
+                        ungu: '#7b1fa2',
+                        biru: '#1976d2',
+                        hijau: '#00897b',
+                        unguMuda: '#5e35b1',
+                    },
+                    fontFamily: {
+                        sans: ['Arial', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto { content-visibility: auto; }
+            .text-shadow { text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+            .tombol { @apply rounded-lg text-white font-bold text-center py-4 px-2 shadow-md hover:scale-[0.98] transition-transform; }
+        }
+    </style>
+</head>
+<body class="bg-sekunder font-sans">
+
+    <!-- CEK LOGIN OTOMATIS -->
+    <script>
+        if(localStorage.getItem("sudahLogin") !== "ya"){
+            location.href = "index.html"; // Kembali ke login kalau belum masuk
+        }
+    </script>
+
+    <!-- HALAMAN UTAMA -->
+    <div class="min-h-screen bg-sekunder">
+
+        <!-- TOMBOL GARIS 3 DI KIRI ATAS -->
+        <div class="bg-merah text-white p-3 flex items-center shadow-md">
+            <button onclick="bukaMenu()" class="text-[22px] mr-3">
+                <i class="fa fa-bars"></i>
+            </button>
+            <h1 class="text-lg font-bold text-shadow">📤 BARANG KELUAR / TERJUAL</h1>
+        </div>
+
+
+        <!-- MENU SAMPING -->
+        <div id="menuUtama" class="fixed top-0 left-0 h-screen w-4/5 max-w-[280px] bg-utama text-white shadow-2xl transform -translate-x-full transition-transform duration-300 z-50">
+            <div class="text-center py-5 border-b border-white/30">
+                <h2 class="text-[18px] font-bold">📋 MENU UTAMA</h2>
+                <p class="text-[13px] opacity-90">Wae Rua - Lamba Leda - Manggarai Timur</p>
+            </div>
+            <div class="flex flex-col text-[16px]">
+                <a href="index.html" class="py-3.5 px-4 border-b border-white/20 hover:bg-white/10 flex items-center gap-3">
+                    <i class="fa fa-home text-[18px]"></i> Beranda
+                </a>
+                <a href="barang-masuk-foto.html" class="py-3.5 px-4 border-b border-white/20 hover:bg-white/10 flex items-center gap-3">
+                    <i class="fa fa-camera text-[18px]"></i> Barang Masuk (Upload Foto)
+                </a>
+                <a href="barang-keluar.html" class="py-3.5 px-4 border-b border-white/20 hover:bg-white/10 flex items-center gap-3 bg-white/20">
+                    <i class="fa fa-shopping-cart text-[18px]"></i> Barang Keluar / Terjual
+                </a>
+                <a href="daftar-harga.html" class="py-3.5 px-4 border-b border-white/20 hover:bg-white/10 flex items-center gap-3">
+                    <i class="fa fa-cube text-[18px]"></i> Daftar Barang / Harga
+                </a>
+                <a href="hubungi-kami.html" class="py-3.5 px-4 border-b border-white/20 hover:bg-white/10 flex items-center gap-3">
+                    <i class="fa fa-phone text-[18px]"></i> Hubungi Kami
+                </a>
+                <a href="tentang.html" class="py-3.5 px-4 border-b border-white/20 hover:bg-white/10 flex items-center gap-3">
+                    <i class="fa fa-info-circle text-[18px]"></i> Tentang Toko
+                </a>
+                <a href="admin.html" class="py-3.5 px-4 border-b border-white/20 hover:bg-white/10 flex items-center gap-3">
+                    <i class="fa fa-lock text-[18px]"></i> Masuk Admin
+                </a>
+                <a href="#" onclick="keluarLogin()" class="py-3.5 px-4 hover:bg-white/10 flex items-center gap-3 text-red-200">
+                    <i class="fa fa-unlock-alt text-[18px]"></i> Keluar
+                </a>
+            </div>
+        </div>
+        <div id="lapisanTutup" onclick="tutupMenu()" class="fixed inset-0 bg-black/60 z-40 hidden"></div>
+
+
+        <!-- ISI HALAMAN BARANG KELUAR -->
+        <div class="p-4 max-w-lg mx-auto">
+
+            <div class="bg-white rounded-xl shadow p-5 mb-4 text-center">
+                <i class="fa fa-shopping-bag text-merah text-4xl mb-2"></i>
+                <h2 class="font-bold text-xl text-gray-800 mb-1">Catat Barang Terjual / Keluar</h2>
+                <p class="text-gray-600">Masukkan data barang yang laku terjual atau keluar dari gudang</p>
+            </div>
+
+
+            <!-- FORM INPUT -->
+            <div class="bg-white rounded-xl shadow p-5 space-y-4">
+                <div>
+                    <label class="block font-medium mb-1 text-gray-700">Nama Barang</label>
+                    <input type="text" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-merah" placeholder="Contoh : Sabun Mandi, Mie Instan...">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-medium mb-1 text-gray-700">Jumlah</label>
+                        <input type="number" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-merah" placeholder="0">
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1 text-gray-700">Harga Jual / Pcs</label>
+                        <input type="number" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-merah" placeholder="Rp 0">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-medium mb-1 text-gray-700">Keterangan / Catatan</label>
+                    <textarea class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-merah" rows="3" placeholder="Misal : Terjual ke pembeli, Keluar kirim cabang..."></textarea>
+                </div>
+
+                <button class="w-full bg-merah text-white py-2.5 rounded-lg font-bold hover:bg-merah/90">
+                    ✅ SIMPAN DATA BARANG KELUAR
+                </button>
+            </div>
+
+
+            <!-- TOMBOL KEMBALI -->
+            <a href="index.html" class="tombol bg-unguMuda w-full mt-4 block">
+                <i class="fa fa-arrow-left text-lg mr-2"></i> KEMBALI KE BERANDA
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        function keluarLogin() {
+            localStorage.removeItem("sudahLogin");
+            location.href = "index.html";
+        }
+        function bukaMenu() {
+            document.getElementById("menuUtama").classList.remove("-translate-x-full");
+            document.getElementById("lapisanTutup").classList.remove("hidden");
+        }
+        function tutupMenu() {
+            document.getElementById("menuUtama").classList.add("-translate-x-full");
+            document.getElementById("lapisanTutup").class.add("hidden");
+        }
+    </script>
+
+</body>
+</html>
