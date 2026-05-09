@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk Akun Bisnis Anda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        utama: '#165DFF',
+                        sukses: '#00C48C',
+                        bahaya: '#F53F3F',
+                        peringatan: '#FF7D00',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .shadow-ku { box-shadow: 0 4px 16px 0 rgba(0,0,0,0.1); }
+            .tombol-ku {transition: all 0.2s ease;}
+            .tombol-ku:active {transform: scale(0.96);}
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-poppins">
+
+    <div class="container mx-auto px-4 py-16 max-w-md">
+        <div class="bg-utama/10 p-6 rounded-2xl text-center mb-8 shadow-ku">
+            <div class="text-[40px] text-utama mb-2">🧑‍💼</div>
+            <h1 class="text-[24px] font-bold text-utama">MASUK KE AKUN</h1>
+            <p class="text-gray-600">Data Sendiri • Nota Sendiri • Aman Terpisah</p>
+            <div class="mt-2 bg-sukses/10 text-sukses text-sm py-1 px-3 rounded-full inline-block">
+                ✅ Hanya data Anda
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-ku">
+            <form id="formMasuk" class="space-y-4">
+                <div>
+                    <label class="font-semibold mb-2 block">👤 Nama Akun</label>
+                    <input type="text" id="akunMasuk" placeholder="Masukkan nama akun" class="w-full border rounded-xl p-4 text-lg" required>
+                </div>
+                <div>
+                    <label class="font-semibold mb-2 block">🔒 Kata Sandi</label>
+                    <input type="password" id="sandiMasuk" placeholder="Masukkan kata sandi" class="w-full border rounded-xl p-4 text-lg" required>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3 mb-5 pt-2">
+                    <a href="daftar_pengguna.html" class="border border-utama text-utama py-3 rounded-xl text-center font-bold tombol-ku">
+                        📋 Daftar Baru
+                    </a>
+                    <button type="submit" class="bg-utama text-white py-3 rounded-xl font-bold tombol-ku hover:bg-utama/90">
+                        ✅ Masuk
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-xs text-center text-gray-500 bg-sukses/10 p-2 rounded-lg">
+                ✅ Aman: Semua data tersimpan di perangkat ini saja
+            </div>
+        </div>
+    </div>
+
+<script>
+document.getElementById('formMasuk').onsubmit = function(e){
+    e.preventDefault();
+    let akun = document.getElementById('akunMasuk').value.trim();
+    let sandi = document.getElementById('sandiMasuk').value.trim();
+    let cekData = localStorage.getItem('akun_'+akun);
+
+    if(!cekData) { 
+        alert("❌ Akun BELUM TERDAFTAR!\nSilakan daftar dulu."); 
+        return; 
+    }
+
+    let data = JSON.parse(cekData);
+    if(data.sandi !== sandi) { 
+        alert("❌ KATA SANDI SALAH!"); 
+        return; 
+    }
+
+    localStorage.setItem('akun_aktif', akun);
+    alert("✅ BERHASIL MASUK!");
+    window.location.href = "kasir_pilih_sistem.html";
+}
+</script>
+
+</body>
+</html>
