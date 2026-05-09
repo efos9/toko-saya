@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Wae Rua - Kasir Lengkap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/dist/html5-qrcode.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        utama: '#008966',
+                        sekunder: '#165DFF',
+                        sukses: '#00C48C',
+                        bahaya: '#F53F3F',
+                        peringatan: '#FF7D00',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .shadow-ku { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+            .tombol-ku {transition: 0.2s ease; cursor:pointer;}
+            .tombol-ku:active {transform: scale(0.96);}
+            .sidebar-active {background: #007054 !important;}
+            .bingkai-scan {border:3px dashed #165DFF; border-radius:16px; background:#f8faff;}
+            .halaman {display: none;}
+            .halaman.aktif {display: block;}
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-poppins flex min-h-screen">
+
+    <!-- ✅ MENU UTAMA → HANYA MUNCUL SETELAH BERHASIL LOGIN -->
+    <div id="menu_samping" class="w-[260px] bg-utama text-white min-h-screen p-4 fixed left-0 top-0 z-50 hidden">
+        <div class="text-center mb-6 pb-3 border-b border-white/20">
+            <h2 class="font-bold text-lg">📋 MENU UTAMA</h2>
+            <p class="text-sm opacity-80">Wae Rua - Lamba Leda - Manggarai Timur</p>
+            <small class="text-yellow-200 block mt-1">👤 Akun: <span id="namaAkunMasuk"></span></small>
+        </div>
+
+        <div class="space-y-2">
+            <a onclick="bukaHalaman('beranda')" class="sidebar-active flex items-center gap-3 py-3 px-3 rounded-xl tombol-ku">
+                <i class="fa fa-home text-lg"></i> Beranda
+            </a>
+            <a href="barang-masuk-foto.html" class="flex items-center gap-3 py-3 px-3 rounded-xl tombol-ku hover:bg-white/10">
+                <i class="fa fa-upload text-lg"></i> Barang Masuk (Upload Foto)
+            </a>
+            <a href="barang-keluar.html" class="flex items-center gap-3 py-3 px-3 rounded-xl tombol-ku hover:bg-white/10">
+                <i class="fa fa-shopping-cart text-lg"></i> Barang Keluar / Terjual
+            </a>
+            <a href="daftar-harga.html" class="flex items-center gap-3 py-3 px-3 rounded-xl tombol-ku hover:bg-white/10">
+                <i class="fa fa-list text-lg"></i> Daftar Barang / Harga
+            </a>
+
+            <div class="mt-4 mb-2 pt-3 border-t border-white/20">
+                <p class="text-xs font-bold opacity-80 px-3">✨ FITUR BARU KASIR</p>
+            </div>
+            
+            <a onclick="bukaHalaman('scan_kasir')" class="bg-sekunder/40 flex items-center gap-3 py-3 px-3 rounded-xl tombol-ku hover:bg-sekunder/60 font-bold">
+                <i class="fa fa-barcode text-lg"></i> 📟 SISTEM KASIR SCAN
+            </a>
+
+            <a href="https://wa.me/6281327913004?text=Halo%20Admin%20Wae%20Rua,%20saya%20ingin%20bertanya" target="_blank" class="flex items-center gap-3 py-3 px-3 rounded-xl tombol-ku hover:bg-white/10 mt-2">
+                <i class="fa fa-phone text-lg"></i> Hubungi Kami
+            </a>
+            <a href="tentang-toko.html" class="flex items-center gap-3 py-3 px-3 rounded-xl tombol-ku hover:bg-white/10">
+                <i class="fa fa-info-circle text-lg"></i> Tentang Toko
+            </a>
+            <a href="admin.html" class="flex items-center gap-3 py-3 px-3 rounded-xl tombol-ku hover:bg-white/10">
+                <i class="fa fa-lock text-lg"></i> Masuk Admin
+            </a>
+            <a onclick="keluarAkun()" class="flex items-center gap-3 py-3 px-3 rounded-xl tombol-ku hover:bg-white/10 text-bahaya/90">
+                <i class="fa fa-sign-out text-lg"></i> Keluar
+            </a>
+        </div>
+    </div>
+
+
+    <!-- ✅ KONTEN UTAMA -->
+    <div id="konten_utama" class="flex-1 p-5 ml-0 transition-all">
+
+        <!-- ✅ HALAMAN AWAL: TAMPILAN PERSIS GAMBAR ANDA ✅ -->
+        <div id="halaman_awal" class="halaman aktif">
+            <div class="h-screen flex flex-col items-center justify-center px-4 max-w-md mx-auto">
+                <div class="text-center mb-12">
+                    <h1 class="text-[28px] font-bold text-utama mb-3 flex items-center justify-center gap-2">
+                        <span>🏪</span> TOKO WAE RUA
+                    </h1>
+                    <p class="text-gray-600 text-lg">Wae Rua - Lamba Leda - Manggarai Timur</p>
+                </div>
+
+                <div class="w-full space-y-5 px-3">
+                    <!-- ✅ TOMBOL BIRU: BISA DITEKAN, LANGSUNG MASUK DAFTAR -->
+                    <button onclick="bukaHalaman('daftar')" class="w-full bg-sekunder text-white py-5 rounded-xl font-bold text-lg tombol-ku flex items-center justify-center gap-2 shadow-lg">
+                        <i class="fa fa-user-plus text-xl"></i> DAFTAR AKUN BARU
+                    </button>
+                    <!-- ✅ TOMBOL HIJAU: BISA DITEKAN, LANGSUNG MASUK LOGIN -->
+                    <button onclick="bukaHalaman('masuk')" class="w-full bg-utama text-white py-5 rounded-xl font-bold text-lg tombol-ku flex items-center justify-center gap-2 shadow-lg">
+                        <i class="fa fa-sign-in text-xl"></i> MASUK AKUN KASIR
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ==================== HALAMAN DAFTAR AKUN ✅ SUDAH JALAN ==================== -->
+        <div id="daftar" class="halaman">
+            <div class="container mx-auto px-4 py-4 max-w-md">
+                <button onclick="bukaHalaman('halaman_awal')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali
+                </button>
+
+                <h2 class="text-center text-xl font-bold mb-2">Daftar Akun Bisnis Anda</h2>
+                <p class="text-center text-sm text-gray-500 mb-4">Preview</p>
+
+                <div class="bg-red-50 border border-red-200 text-red-700 p-3 rounded-xl mb-4 text-sm">
+                    <p><span class="font-bold text-red-600">✕</span> TIDAK ADA data, nama, atau alamat pihak lain yang ikut masuk.</p>
+                    <p class="mt-1"><span class="font-bold text-green-600">✓</span> HANYA NAMA BISNIS ANDA SENDIRI yang tertera, murni milik Anda sepenuhnya.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-ku">
+                    <form id="formDaftar" class="space-y-4">
+                        <div>
+                            <label class="font-semibold mb-1 block flex items-center gap-2">
+                                <i class="fa fa-user text-gray-600"></i> Nama Akun Baru *
+                            </label>
+                            <input type="text" id="dnama" placeholder="Contoh: TokoBerkah / WarungSari" class="w-full border rounded-xl p-3" required>
+                        </div>
+
+                        <div>
+                            <label class="font-semibold mb-1 block flex items-center gap-2">
+                                <i class="fa fa-lock text-gray-600"></i> Buat Kata Sandi *
+                            </label>
+                            <input type="password" id="dsandi" placeholder="Rahasia Anda Sendiri" class="w-full border rounded-xl p-3" required>
+                        </div>
+
+                        <hr class="border-dashed">
+
+                        <div>
+                            <label class="font-semibold mb-1 block flex items-center gap-2">
+                                <i class="fa fa-building text-gray-600"></i> NAMA BISNIS ANDA *
+                            </label>
+                            <input type="text" id="dbisnis" placeholder="Contoh: Toko Sembako Berkah Jaya" class="w-full border rounded-xl p-3" required>
+                        </div>
+
+                        <div>
+                            <label class="font-semibold mb-1 block flex items-center gap-2">
+                                <i class="fa fa-map-marker text-gray-600"></i> ALAMAT LENGKAP ANDA *
+                            </label>
+                            <textarea id="dalamat" placeholder="Jl. Melati No.17, RT03 RW06, Kel. Sukajaya, Kec. Cibinong" class="w-full border rounded-xl p-3" required></textarea>
+                        </div>
+
+                        <div>
+                            <label class="font-semibold mb-1 block flex items-center gap-2">
+                                <i class="fa fa-phone text-gray-600"></i> NOMOR HP / WA ANDA *
+                            </label>
+                            <input type="text" id="dhp" placeholder="0812-8899-7766" class="w-full border rounded-xl p-3" required>
+                        </div>
+
+                        <button type="submit" class="w-full bg-sukses text-white py-3 rounded-xl font-bold tombol-ku mt-2 flex items-center justify-center gap-2">
+                            <i class="fa fa-check"></i> SIMPAN & BUAT AKUN
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ==================== HALAMAN MASUK AKUN ✅ SUDAH JALAN ==================== -->
+        <div id="masuk" class="halaman">
+            <div class="container mx-auto px-4 py-4 max-w-md">
+                <button onclick="bukaHalaman('halaman_awal')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali
+                </button>
+
+                <h2 class="text-center text-xl font-bold mb-2">Masuk Akun Bisnis Anda</h2>
+                <p class="text-center text-sm text-gray-500 mb-4">Preview</p>
+
+                <div class="bg-blue-50 p-5 rounded-2xl text-center mb-5 shadow-sm">
+                    <div class="text-[40px] mb-2">👨‍💼</div>
+                    <h1 class="text-[22px] font-bold text-sekunder">MASUK AKUN BISNIS ANDA</h1>
+                    <p class="text-gray-600 mt-1">Data Sendiri • Nota Sendiri • Aman Terpisah</p>
+                    <span class="inline-block bg-green-100 text-green-700 text-sm px-3 py-1 rounded-full mt-2"><span class="font-bold">✓</span> Hanya data Anda saja yang tersimpan</span>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-ku">
+                    <form id="formMasuk" class="space-y-4">
+                        <div>
+                            <label class="font-semibold mb-1 block flex items-center gap-2">
+                                <i class="fa fa-user text-gray-600"></i> Nama Akun
+                            </label>
+                            <input type="text" id="mnama" placeholder="Masukkan Nama Akun Anda" class="w-full border rounded-xl p-3" required>
+                        </div>
+
+                        <div>
+                            <label class="font-semibold mb-1 block flex items-center gap-2">
+                                <i class="fa fa-lock text-gray-600"></i> Kata Sandi
+                            </label>
+                            <input type="password" id="msandi" placeholder="Kata Sandi Rahasia Anda" class="w-full border rounded-xl p-3" required>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mt-4">
+                            <button onclick="bukaHalaman('daftar')" type="button" class="border-2 border-sekunder text-sekunder py-3 rounded-xl font-bold tombol-ku flex items-center justify-center gap-2">
+                                <i class="fa fa-file-text-o"></i> Daftar Akun Baru
+                            </button>
+                            <button type="submit" class="bg-sekunder text-white py-3 rounded-xl font-bold tombol-ku flex items-center justify-center gap-2">
+                                <i class="fa fa-check"></i> Masuk
+                            </button>
+                        </div>
+
+                        <div class="text-sm mt-3 space-y-1">
+                            <p class="text-green-600"><span class="font-bold">✓</span> Aman: Data bisnis Anda tersimpan sendiri</p>
+                            <p class="text-red-600"><span class="font-bold">✕</span> Tidak ada akses pihak lain, murni milik Anda</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ==================== BERANDA ==================== -->
+        <div id="beranda" class="halaman">
+            <div class="bg-white p-6 rounded-2xl shadow-ku max-w-3xl mx-auto mt-10">
+                <div class="bg-sukses/10 border border-sukses/20 text-sukses p-4 rounded-xl text-center mb-6">
+                    ✅ Selamat Datang Admin !<br>
+                    <span class="text-gray-600 text-sm">Tampilan pas persis • Semua fitur berfungsi • Data aman milik Anda</span>
+                </div>
+                <div class="text-center py-10">
+                    <h1 class="text-[26px] font-bold text-utama mb-3">🏪 TOKO WAE RUA</h1>
+                    <p class="text-gray-600 mb-6">Kasir Lengkap • Baca Barcode • Hitung Kembalian</p>
+                    <button onclick="bukaHalaman('scan_kasir')
