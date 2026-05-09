@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Akun & Data Bisnis Sendiri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-poppins">
+
+    <div class="container mx-auto px-4 py-8 max-w-md">
+        <div class="bg-utama text-white p-5 rounded-2xl shadow-ku mb-6 text-center">
+            <h1 class="text-[22px] font-bold">📝 DAFTAR AKUN BARU</h1>
+            <p class="text-sm opacity-90">Isi Data Sendiri • Nota Otomatis Atas Nama Bisnis Anda</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-ku">
+            <!-- ✅ PERINGATAN SUDAH DIUBAH: TIDAK ADA SEBUTAN BOSKU / PIHAK LAIN -->
+            <div class="bg-bahaya/10 text-bahaya p-3 rounded-xl text-sm text-center mb-5">
+                ❗ <b>PERHATIAN PENTING:</b><br>
+                Semua data yang Anda isi di sini <b>AKAN MUNCUL DI NOTA ANDA</b>.<br>
+                ❌ <b>TIDAK ADA data, nama, atau alamat pihak lain yang ikut masuk.</b><br>
+                ✅ HANYA <b>NAMA BISNIS ANDA SENDIRI</b> yang tertera, murni milik Anda sepenuhnya.
+            </div>
+
+            <form id="formDaftar" class="space-y-4">
+                
+                <div>
+                    <label class="font-semibold mb-1 block">👤 Nama Akun Baru *</label>
+                    <input type="text" id="namaAkun" placeholder="Contoh: TokoBerkah / WarungSari" class="w-full border rounded-xl p-3" required>
+                </div>
+                <div>
+                    <label class="font-semibold mb-1 block">🔒 Buat Kata Sandi *</label>
+                    <input type="password" id="sandiAkun" placeholder="Rahasia Anda Sendiri" class="w-full border rounded-xl p-3" required>
+                </div>
+
+                <hr class="border-dashed">
+
+                <!-- ✅ SUDAH DIUBAH: JADI "NAMA BISNIS ANDA" -->
+                <div>
+                    <label class="font-semibold mb-1 block">🏪 NAMA BISNIS ANDA *</label>
+                    <input type="text" id="namaUsaha" placeholder="Contoh: Toko Sembako Berkah Jaya" class="w-full border rounded-xl p-3" required>
+                </div>
+
+                <div>
+                    <label class="font-semibold mb-1 block">🛣️ ALAMAT LENGKAP ANDA *</label>
+                    <textarea id="alamatUsaha" rows="3" placeholder="Jl. Melati No.17, RT03 RW06, Kel. Sukajaya, Kec. Cibinong" class="w-full border rounded-xl p-3" required></textarea>
+                </div>
+
+                <div>
+                    <label class="font-semibold mb-1 block">📞 NOMOR HP / WA ANDA *</label>
+                    <input type="text" id="hpUsaha" placeholder="0812-8899-7766" class="w-full border rounded-xl p-3" required>
+                </div>
+
+                <button type="submit" class="w-full bg-sukses text-white py-3 rounded-xl font-bold tombol-ku hover:bg-sukses/90 mt-3">
+                    ✅ SIMPAN & BUAT AKUN
+                </button>
+            </form>
+        </div>
+
+        <script>
+            document.getElementById('formDaftar').onsubmit = function(e){
+                e.preventDefault();
+                let akun = document.getElementById('namaAkun').value;
+                let data = {
+                    sandi: document.getElementById('sandiAkun').value,
+                    usaha: {
+                        nama: document.getElementById('namaUsaha').value,
+                        alamat: document.getElementById('alamatUsaha').value,
+                        hp: document.getElementById('hpUsaha').value
+                    }
+                };
+                localStorage.setItem('akun_'+akun, JSON.stringify(data));
+                alert("✅ BERHASIL!\n\nData bisnis Anda sudah tersimpan aman.\nNanti pas cetak nota, HANYA NAMA DAN ALAMAT ANDA yang muncul.\nTidak ada data siapa pun yang ikut masuk.");
+                window.location.href = "masuk_pengguna.html";
+            }
+        </script>
+    </div>
+
+</body>
+</html>
