@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Saya - Sistem Data Barang</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f0f2f5;
+            padding: 20px;
+        }
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .menu-container {
+            max-width: 500px;
+            margin: 0 auto;
+            display: grid;
+            gap: 15px;
+        }
+        .menu-item {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            font-size: 17px;
+            font-weight: 500;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .menu-item:hover {
+            background: #3498db;
+            color: white;
+        }
+        .status {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>📦 SISTEM DATA TOKO SAYA</h1>
+        <p>Alamat: efos9.github.io/toko-saya/</p>
+    </div>
+
+    <div class="status">✅ Halaman Berjalan Normal, Tidak Ada Masalah!</div>
+
+    <div class="menu-container">
+        <a href="admin.html" class="menu-item">👤 Halaman Admin</a>
+        <a href="barang-masuk-foto.html" class="menu-item">📥 Barang Masuk & Foto</a>
+        <!-- ✅ YANG BARU DITAMBAHKAN DI SINI -->
+        <a href="barang-keluar.html" class="menu-item">📤 Barang Keluar</a>
+        <a href="catat.html" class="menu-item">📝 Catat Data</a>
+        <a href="cetak-nota.html" class="menu-item">🧾 Cetak Nota</a>
+        <a href="daftar-harga.html" class="menu-item">💰 Daftar Harga Barang</a>
+        <a href="laporan.html" class="menu-item">📊 Laporan Data</a>
+        <a href="tentang.html" class="menu-item">ℹ️ Tentang Toko</a>
+    </div>
+
+</body>
+</html>
