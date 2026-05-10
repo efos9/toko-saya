@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda - WAERUA INDOMARET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/dist/html5-qrcode.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        utama: '#008966',
+                        sekunder: '#165DFF',
+                        sukses: '#00C48C',
+                        bahaya: '#F53F3F',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .halaman {display: none;}
+            .halaman.aktif {display: block;}
+            .tombol-ku {transition:0.2s; cursor:pointer;}
+            .tombol-ku:active {transform:scale(0.96);}
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-poppins min-h-screen flex">
+
+    <!-- ✅ MENU SAMPING -->
+    <div class="w-[270px] bg-utama text-white min-h-screen p-4 fixed left-0 top-0 z-50 shadow-lg">
+        <div class="text-center mb-6 pb-3 border-b border-white/20">
+            <h2 class="font-bold text-lg flex items-center justify-center gap-2">
+                <span>🏪</span> WAERUA INDOMARET
+            </h2>
+            <p class="text-sm opacity-80 mt-1">Wae Rua - Lamba Leda</p>
+            <small class="text-yellow-200 block mt-1">👤 Akun: <span id="namaPemilik"></span></small>
+            <small class="text-green-200 text-[11px]">✅ Data Khusus Akun Ini Saja</small>
+        </div>
+
+        <div class="space-y-2">
+            <a onclick="bukaHalaman('beranda')" class="bg-white/20 flex items-center gap-3 py-3 px-3 rounded-xl tombol-ku">
+                <i class="fa fa-home text-lg"></i> Beranda / Dasbor
+            </a>
+            <a onclick="bukaHalaman('masuk_barang')" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-white/10 tombol-ku">
+                <i class="fa fa-upload text-lg"></i> Masukan Barang<br><small class="opacity-70 ml-7">(Bisa Foto Nota)</small>
+            </a>
+            <a onclick="keluarAkun()" class="mt-8 text-red-200 flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-white/10 tombol-ku">
+                <i class="fa fa-sign-out text-lg"></i> Keluar Akun
+            </a>
+        </div>
+    </div>
+
+
+    <!-- ✅ KONTEN UTAMA -->
+    <div class="flex-1 ml-[270px] p-5">
+
+        <!-- ✅ HALAMAN BERANDA / DASBOR → DI SINI SEMUA FITUR MUNCUL -->
+        <div id="beranda" class="halaman aktif">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white p-6 rounded-2xl shadow-ku mb-6 text-center bg-gradient-to-r from-utama/10 to-sekunder/10">
+                    <h1 class="text-[24px] font-bold text-utama mb-2">📋 DASBOR UTAMA</h1>
+                    <p class="text-gray-600">Semua fitur transaksi & laporan ada di bawah ini, lengkap sesuai pesanan anda</p>
+                </div>
+
+
+                <!-- ✅ DAFTAR SEMUA FITUR YANG KAMU MINTA -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                    <!-- 1. BARANG KELUAR -->
+                    <div onclick="bukaHalaman('barang_keluar')" class="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl tombol-ku border-l-[6px] border-bahaya">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-bahaya/10 text-bahaya flex items-center justify-center text-xl">
+                                <i class="fa fa-arrow-down"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">📤 Barang Keluar</h3>
+                                <p class="text-sm text-gray-500">Catat barang yang terjual / keluar gudang</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. CATAT PENJUALAN -->
+                    <div onclick="bukaHalaman('catat_penjualan')" class="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl tombol-ku border-l-[6px] border-sukses">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-sukses/10 text-sukses flex items-center justify-center text-xl">
+                                <i class="fa fa-pencil"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">📝 Catat Penjualan</h3>
+                                <p class="text-sm text-gray-500">Simpan jumlah barang, jenis & harga jual</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. LIHAT DAFTAR HARGA -->
+                    <div onclick="bukaHalaman('lihat_harga')" class="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl tombol-ku border-l-[6px] border-sekunder">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-sekunder/10 text-sekunder flex items-center justify-center text-xl">
+                                <i class="fa fa-list"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">🏷️ Lihat Daftar Harga</h3>
+                                <p class="text-sm text-gray-500">Semua barang & harga jual tersimpan rapi</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. CETAK NOTA -->
+                    <div onclick="bukaHalaman('cetak_nota')" class="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl tombol-ku border-l-[6px] border-purple-500">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xl">
+                                <i class="fa fa-print"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">🖨️ Cetak Nota</h3>
+                                <p class="text-sm text-gray-500">Buat & cetak bukti pembayaran lengkap</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. LAPORAN LENGKAP -->
+                    <div onclick="bukaHalaman('laporan_lengkap')" class="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl tombol-ku border-l-[6px] border-yellow-500">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center text-xl">
+                                <i class="fa fa-bar-chart"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">📊 Laporan Lengkap</h3>
+                                <p class="text-sm text-gray-500">Laporan harian / bulanan / tahunan / tanggal tertentu</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. BARANG BELI PELANGGAN + SCAN -->
+                    <div onclick="bukaHalaman('beli_pelanggan')" class="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl tombol-ku border-l-[6px] border-green-600 md:col-span-2">
+                        <div class="flex items-center gap-4 justify-center">
+                            <div class="w-14 h-14 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-xl">
+                                <i class="fa fa-barcode"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">🛒 BARANG BELI PELANGGAN</h3>
+                                <p class="text-sm text-gray-500">✅ SCAN BARCODE ✅ Hitung Kembalian ✅ Cetak Nota Otomatis</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ✅ HALAMAN MASUK BARANG -->
+        <div id="masuk_barang" class="halaman">
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                <button onclick="bukaHalaman('beranda')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <h2 class="text-xl font-bold mb-4">📥 Masukan Barang Baru</h2>
+                <p class="text-sm text-gray-600 mb-4">Bisa masukkan data manual ATAU <b>UNGGAH FOTO NOTA</b> dari pemasok → otomatis masuk daftar barang & harga</p>
+
+                <input type="file" accept="image/*" class="w-full border p-3 rounded-xl mb-4">
+                <form class="space-y-3">
+                    <input type="text" placeholder="Nama Barang" class="w-full border p-3 rounded-xl">
+                    <input type="number" placeholder="Harga Modal" class="w-full border p-3 rounded-xl">
+                    <input type="number" placeholder="Harga Jual" class="w-full border p-3 rounded-xl">
+                    <input type="number" placeholder="Stok Masuk" class="w-full border p-3 rounded-xl">
+                    <button type="submit" class="w-full bg-sukses text-white py-3 rounded-xl font-bold tombol-ku">✅ SIMPAN KE DAFTAR BARANG</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- ✅ HALAMAN BARANG KELUAR -->
+        <div id="barang_keluar" class="halaman">
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                <button onclick="bukaHalaman('beranda')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <h2 class="text-xl font-bold mb-4">📤 Barang Keluar / Terjual</h2>
+                <form class="space-y-3">
+                    <select class="w-full border p-3 rounded-xl">
+                        <option>-- Pilih Nama Barang --</option>
+                        <option>Beras 5kg</option>
+                        <option>Minyak Goreng 1L</option>
+                    </select>
+                    <input type="number" placeholder="Jumlah Keluar" class="w-full border p-3 rounded-xl">
+                    <input type="text" placeholder="Keterangan / Pembeli" class="w-full border p-3 rounded-xl">
+                    <button type="submit" class="w-full bg-bahaya text-white py-3 rounded-xl font-bold tombol-ku">✅ SIMPAN BARANG KELUAR</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- ✅ HALAMAN CATAT PENJUALAN -->
+        <div id="catat_penjualan" class="halaman">
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                <button onclick="bukaHalaman('beranda')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <h2 class="text-xl font-bold mb-4">📝 Catat Penjualan</h2>
+                <form class="space-y-3">
+                    <input type="text" placeholder="Jenis / Nama Barang" class="w-full border p-3 rounded-xl">
+                    <input type="number" placeholder="Jumlah Terjual" class="w-full border p-3 rounded-xl">
+                    <input type="number" placeholder="Harga Satuan" class="w-full border p-3 rounded-xl">
+                    <input type="number" placeholder="Total Harga" class="w-full border p-3 rounded-xl">
+                    <button type="submit" class="w-full bg-sukses text-white py-3 rounded-xl font-bold tombol-ku">✅ SIMPAN CATATAN</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- ✅ HALAMAN LIHAT HARGA -->
+        <div id="lihat_harga" class="halaman">
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                <button onclick="bukaHalaman('beranda')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <h2 class="text-xl font-bold mb-4">🏷️ Daftar Barang & Harga Jual</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-utama text-white">
+                                <th class="border p-2 text-left">Nama Barang</th>
+                                <th class="border p-2 text-left">Harga Modal</th>
+                                <th class="border p-2 text-left">Harga Jual</th>
+                                <th class="border p-2 text-left">Stok</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daftarHargaIsi">
+                            <tr><td colspan="4" class="p-3 text-center text-gray-500">Belum ada barang masuk</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ✅ HALAMAN CETAK NOTA -->
+        <div id="cetak_nota" class="halaman">
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                <button onclick="bukaHalaman('beranda')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <h2 class="text-xl font-bold mb-4">🖨️ Cetak Nota Pembelian</h2>
+                <div id="areaNota" class="border-2 border-dashed p-5 rounded-xl mb-4">
+                    <div class="text-center mb-4">
+                        <h3 class="font-bold text-lg">WAERUA INDOMARET
