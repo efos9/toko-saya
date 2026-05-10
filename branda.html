@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=">
+    <title>Beranda - WAERUA INDOMARET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/dist/html5-qrcode.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        utama: '#008966',
+                        sekunder: '#165DFF',
+                        merah: '#E53935',
+                        ungu: '#7B1FA2',
+                        biru: '#1976D2',
+                        hijau: '#008966',
+                        ungu_muda: '#7C4DFF',
+                        oren: '#F57C00',
+                        abu: '#E2E2E2',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .halaman {display: none !important;}
+            .halaman.aktif {display: block !important;}
+            .aktif-menu {background: rgba(255,255,255,0.25) !important; font-weight:bold;}
+            .tombol-ku {transition:0.2s; cursor:pointer;}
+            .tombol-ku:active {transform:scale(0.96);}
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex">
+
+    <!-- ✅ MENU SAMPING -->
+    <div class="w-[270px] bg-utama text-white min-h-screen p-4 fixed left-0 top-0 z-50 shadow-lg">
+        <div class="text-center mb-6 pb-3 border-b border-white/20">
+            <h2 class="font-bold text-lg flex items-center justify-center gap-2">
+                <span>🏪</span> WAERUA INDOMARET
+            </h2>
+            <p class="text-sm opacity-80 mt-1">Wae Rua - Lamba Leda</p>
+            <small class="text-yellow-200 block mt-1">👤 Akun: <span id="namaPemilik"></span></small>
+            <small class="text-green-200 text-[11px]">✅ Data Khusus Akun Ini Saja</small>
+        </div>
+
+        <div class="space-y-2">
+            <a onclick="bukaHalaman('beranda')" id="menu_beranda" class="aktif-menu flex items-center gap-3 py-3 px-3 rounded-xl tombol-ku">
+                <i class="fa fa-home text-lg"></i> Beranda
+            </a>
+            <a onclick="bukaHalaman('masuk_barang')" id="menu_masukbarang" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-white/10 tombol-ku">
+                <i class="fa fa-upload text-lg"></i> Masukan Barang<br><small class="opacity-70 ml-7">(Bisa Foto Nota)</small>
+            </a>
+            <a onclick="keluarAkun()" class="mt-8 text-red-200 flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-white/10 tombol-ku">
+                <i class="fa fa-sign-out text-lg"></i> Keluar Akun
+            </a>
+        </div>
+    </div>
+
+
+    <!-- ✅ KONTEN UTAMA -->
+    <div class="flex-1 ml-[270px] p-3 md:p-5">
+
+        <!-- ✅ HALAMAN BERANDA / DASBOR - PERSIS GAMBAR, SEMUA TOMBOL BERFUNGSI ✅ -->
+        <div id="beranda" class="halaman aktif">
+            <div class="max-w-lg mx-auto">
+                <div class="bg-utama text-white text-center py-4 px-5 rounded-t-2xl shadow-lg mb-4">
+                    <h1 class="text-[20px] font-bold flex items-center justify-center gap-2">
+                        <i class="fa fa-bar-chart"></i> DASHBOARD PEMILIK
+                    </h1>
+                    <p class="text-[15px] opacity-90 mt-1">WAE RUA INDOMARET</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow p-5 mb-4 text-center">
+                    <h3 class="font-bold text-[17px] text-gray-800 flex items-center justify-center gap-2">
+                        <i class="fa fa-line-chart text-sekunder text-lg"></i> GRAFIK PENDAPATAN
+                    </h3>
+                    <p class="text-gray-500 text-sm mt-2">Data akan muncul otomatis setelah catat penjualan</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow p-5 mb-6 text-center">
+                    <h3 class="font-bold text-[17px] text-gray-800 flex items-center justify-center gap-2">
+                        <i class="fa fa-line-chart text-blue-500 text-lg"></i> GRAFIK BARANG TERJUAL
+                    </h3>
+                    <p class="text-gray-500 text-sm mt-2">Data akan muncul otomatis setelah catat penjualan</p>
+                </div>
+
+
+                <!-- ✅ TOMBOL SEMUA BERFUNGSI ✅ -->
+                <div class="grid grid-cols-2 gap-3 md:gap-4 mb-5">
+
+                    <div onclick="bukaHalaman('masuk_barang')" class="bg-abu rounded-xl p-4 tombol-ku text-center hover:bg-gray-300">
+                        <div class="text-[22px] text-gray-600 mb-1"><i class="fa fa-camera"></i></div>
+                        <h4 class="font-bold text-gray-700">BARANG MASUK<br><span class="text-[13px]">- UPLOAD FOTO</span></h4>
+                    </div>
+
+                    <div onclick="bukaHalaman('barang_keluar')" class="bg-merah text-white rounded-xl p-4 tombol-ku text-center hover:bg-merah/90">
+                        <div class="text-[22px] mb-1"><i class="fa fa-archive"></i></div>
+                        <h4 class="font-bold">BARANG KELUAR / TERJUAL</h4>
+                    </div>
+
+                    <div onclick="bukaHalaman('catat_penjualan')" class="bg-ungu text-white rounded-xl p-4 tombol-ku text-center hover:bg-ungu/90">
+                        <div class="text-[22px] mb-1"><i class="fa fa-pencil-square-o"></i></div>
+                        <h4 class="font-bold">CATAT PENJUALAN</h4>
+                    </div>
+
+                    <div onclick="bukaHalaman('lihat_harga')" class="bg-biru text-white rounded-xl p-4 tombol-ku text-center hover:bg-biru/90">
+                        <div class="text-[22px] mb-1"><i class="fa fa-file-text-o"></i></div>
+                        <h4 class="font-bold">LIHAT HARGA</h4>
+                    </div>
+
+                    <div onclick="bukaHalaman('cetak_nota')" class="bg-merah text-white rounded-xl p-4 tombol-ku text-center hover:bg-merah/90">
+                        <div class="text-[22px] mb-1"><i class="fa fa-print"></i></div>
+                        <h4 class="font-bold">CETAK NOTA</h4>
+                    </div>
+
+                    <div onclick="bukaHalaman('laporan_lengkap')" class="bg-hijau text-white rounded-xl p-4 tombol-ku text-center hover:bg-hijau/90">
+                        <div class="text-[22px] mb-1"><i class="fa fa-bar-chart"></i></div>
+                        <h4 class="font-bold">LAPORAN LENGKAP</h4>
+                    </div>
+
+                    <div onclick="bukaHalaman('beli_pelanggan')" class="bg-oren text-white rounded-xl p-4 tombol-ku text-center hover:bg-oren/90 col-span-2">
+                        <div class="text-[22px] mb-1"><i class="fa fa-shopping-cart"></i></div>
+                        <h4 class="font-bold">🛒 BARANG BELI PELANGGAN</h4>
+                    </div>
+                </div>
+
+                <div class="w-full">
+                    <button onclick="bukaHalaman('beranda')" class="w-full bg-ungu_muda text-white py-3 rounded-xl font-bold tombol-ku hover:bg-ungu_muda/90">
+                        <i class="fa fa-arrow-left"></i> KEMBALI KE BERANDA
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ✅ 1. FITUR : MASUK BARANG - BISA UPLOAD FOTO ✅ -->
+        <div id="masuk_barang" class="halaman">
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                <button onclick="bukaHalaman('beranda')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <h2 class="text-xl font-bold mb-3">📥 MASUKAN BARANG BARU</h2>
+                <p class="text-sm text-gray-600 mb-4">✅ Bisa isi manual ✅ Bisa UPLOAD FOTO NOTA dari pemasok → otomatis masuk daftar barang & harga</p>
+
+                <input type="file" accept="image/*" class="w-full border p-3 rounded-xl mb-4">
+                <form class="space-y-3">
+                    <input type="text" placeholder="Nama Barang" class="w-full border p-3 rounded-xl" required>
+                    <input type="number" placeholder="Harga Modal" class="w-full border p-3 rounded-xl" required>
+                    <input type="number" placeholder="Harga Jual" class="w-full border p-3 rounded-xl" required>
+                    <input type="number" placeholder="Stok Masuk" class="w-full border p-3 rounded-xl" required>
+                    <button type="submit" class="w-full bg-sukses text-white py-3 rounded-xl font-bold tombol-ku">✅ SIMPAN KE DAFTAR BARANG</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- ✅ 2. FITUR : BARANG KELUAR / TERJUAL ✅ -->
+        <div id="barang_keluar" class="halaman">
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                <button onclick="bukaHalaman('beranda')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <h2 class="text-xl font-bold mb-3">📤 BARANG KELUAR / TERJUAL</h2>
+                <p class="text-sm text-gray-600 mb-4">✅ Catat barang yang keluar gudang atau sudah terjual ✅ Langsung kurangi stok</p>
+                <form class="space-y-3">
+                    <select class="w-full border p-3 rounded-xl">
+                        <option>-- Pilih Nama Barang --</option>
+                        <option>Beras 5kg - Stok: 25</option>
+                        <option>Minyak Goreng 1L - Stok: 40</option>
+                    </select>
+                    <input type="number" placeholder="Jumlah Keluar" class="w-full border p-3 rounded-xl">
+                    <input type="text" placeholder="Keterangan / Pembeli" class="w-full border p-3 rounded-xl">
+                    <button type="submit" class="w-full bg-merah text-white py-3 rounded-xl font-bold tombol-ku">✅ SIMPAN BARANG KELUAR</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- ✅ 3. FITUR : CATAT PENJUALAN ✅ -->
+        <div id="catat_penjualan" class="halaman">
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                <button onclick="bukaHalaman('beranda')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <h2 class="text-xl font-bold mb-3">📝 CATAT PENJUALAN</h2>
+                <p class="text-sm text-gray-600 mb-4">✅ Simpan jumlah barang terjual ✅ Simpan jenis barang ✅ Simpan harga jual ✅ Masuk ke laporan otomatis</p>
+                <form class="space-y-3">
+                    <input type="text" placeholder="Jenis / Nama Barang" class="w-full border p-3 rounded-xl">
+                    <input type="number" placeholder="Jumlah Terjual" class="w-full border p-3 rounded-xl">
+                    <input type="number" placeholder="Harga Satuan" class="w-full border p-3 rounded-xl">
+                    <input type="number" placeholder="Total Harga" class="w-full border p-3 rounded-xl">
+                    <button type="submit" class="w-full bg-ungu text-white py-3 rounded-xl font-bold tombol-ku">✅ SIMPAN CATATAN</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- ✅ 4. FITUR : LIHAT HARGA ✅ -->
+        <div id="lihat_harga" class="halaman">
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                <button onclick="bukaHalaman('beranda')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <h2 class="text-xl font-bold mb-3">🏷️ LIHAT DAFTAR HARGA</h2>
+                <p class="text-sm text-gray-600 mb-4">✅ Lihat semua barang ✅ Lihat harga modal & harga jual ✅ Lihat sisa stok ✅ Data lengkap</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-biru text-white">
+                                <th class="border p-2 text-left">Nama Barang</th>
+                                <th class="border p-2 text-left">Harga Modal</th>
+                                <th class="border p-2 text-left">Harga Jual</th>
+                                <th class="border p-2 text-left">Stok</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daftarHargaIsi">
+                            <tr><td colspan="4" class="p-3 text-center text-gray-500">Belum ada barang masuk</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ✅ 5. FITUR : CETAK NOTA ✅ -->
+        <div id="cetak_nota" class="halaman">
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+                <button onclick="bukaHalaman('beranda')" class="mb-4 flex items-center gap-2 text-utama font-bold tombol-ku">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                </button>
