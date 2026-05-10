@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - WAERUA INDOMARET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        utama: '#008966',
+                        sekunder: '#165DFF',
+                        sukses: '#00C48C',
+                        bahaya: '#F53F3F',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-poppins min-h-screen py-6 px-4">
+    <div class="container mx-auto max-w-md">
+        <a href="index.html" class="inline-flex items-center gap-2 text-utama font-bold mb-6 hover:underline">
+            <i class="fa fa-arrow-left"></i> Kembali
+        </a>
+
+        <h2 class="text-center text-xl font-bold mb-2">Login Akun Anda</h2>
+        <p class="text-center text-sm text-gray-500 mb-4">Masukkan nama akun & sandi</p>
+
+        <div class="bg-blue-50 p-5 rounded-2xl text-center mb-5 shadow-sm">
+            <div class="text-[40px] mb-2">👨‍💼</div>
+            <h1 class="text-[22px] font-bold text-sekunder">WAERUA INDOMARET</h1>
+            <p class="text-gray-600 mt-1">✅ Data Sendiri • Aman • Tidak Campur</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-lg">
+            <form id="formLogin" class="space-y-4">
+                <div>
+                    <label class="font-semibold mb-1 block flex items-center gap-2">
+                        <i class="fa fa-user text-gray-600"></i> Nama Akun
+                    </label>
+                    <input type="text" id="userNama" placeholder="Masukkan Nama Akun" class="w-full border rounded-xl p-3" required>
+                </div>
+
+                <div>
+                    <label class="font-semibold mb-1 block flex items-center gap-2">
+                        <i class="fa fa-lock text-gray-600"></i> Kata Sandi
+                    </label>
+                    <input type="password" id="userSandi" placeholder="Masukkan Sandi" class="w-full border rounded-xl p-3" required>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mt-4">
+                    <a href="daftar.html" class="border-2 border-sekunder text-sekunder py-3 rounded-xl font-bold text-center hover:bg-sekunder/5 transition">
+                        <i class="fa fa-user-plus"></i> Daftar Baru
+                    </a>
+                    <button type="submit" class="bg-sekunder text-white py-3 rounded-xl font-bold hover:bg-sekunder/90 transition">
+                        <i class="fa fa-check"></i> Masuk
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('formLogin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let nama = document.getElementById('userNama').value.trim();
+            let sandi = document.getElementById('userSandi').value.trim();
+
+            let semua = JSON.parse(localStorage.getItem('semuaAkun')) || [];
+            let ketemu = semua.find(a => a.nama === nama && a.sandi === sandi);
+
+            if(ketemu) {
+                // SIMPAN AKUN YANG SEDANG DIPAKAI
+                localStorage.setItem('akunAktif', JSON.stringify(ketemu));
+                alert('✅ Berhasil Masuk! Masuk ke Beranda');
+                // LANGSUNG KE BERANDA / DASHBOARD
+                window.location.href = "beranda.html";
+            } else {
+                alert('❌ Nama / Sandi SALAH!');
+            }
+        })
+    </script>
+</body>
+</html>
