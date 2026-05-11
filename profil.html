@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Lengkap Toko</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        window.onload = function() {
+            document.getElementById("alamat").value = localStorage.getItem("alamat") || "Desa Wae Rua, Kec. Lamba Leda, Kab. Manggarai Timur - NTT";
+            document.getElementById("kontak").value = localStorage.getItem("kontak") || "0813-2791-3004";
+            document.getElementById("jam").value = localStorage.getItem("jam") || "07.00 — 21.00 Wita (Setiap Hari)";
+            document.getElementById("pemilik").value = localStorage.getItem("pemilik") || "Ovaroldus Supratman";
+        }
+        function simpanProfil(){
+            localStorage.setItem("alamat", document.getElementById("alamat").value);
+            localStorage.setItem("kontak", document.getElementById("kontak").value);
+            localStorage.setItem("jam", document.getElementById("jam").value);
+            localStorage.setItem("pemilik", document.getElementById("pemilik").value);
+            alert("✅ Data Berhasil Disimpan!");
+        }
+    </script>
+</head>
+<body>
+    <div class="wadah-profil">
+        <h2 class="judul-hijau">👤 PROFIL LENGKAP</h2>
+        <div class="kotak-profil">
+            <img src="Profil.jpg" alt="Foto Toko" class="foto-kecil">
+            <h3 class="nama-toko">WAERUA INDOMARET</h3>
+
+            <div class="data-baris">
+                <span>📍</span>
+                <b>Alamat :</b>
+                <input type="text" id="alamat">
+            </div>
+            <div class="data-baris">
+                <span>📞</span>
+                <b>Kontak :</b>
+                <input type="text" id="kontak">
+            </div>
+            <div class="data-baris">
+                <span>⏰</span>
+                <b>Jam Buka :</b>
+                <input type="text" id="jam">
+            </div>
+            <div class="data-baris">
+                <span>👤</span>
+                <b>Pemilik :</b>
+                <input type="text" id="pemilik">
+            </div>
+
+            <button class="tombol-hijau" onclick="simpanProfil()">💾 SIMPAN PERUBAHAN</button>
+        </div>
+
+        <div class="navigasi">
+            <a href="bernda.html">🏡 Beranda</a> |
+            <a href="barang-beli-scen-plangan.html">🛒 Kasir</a>
+        </div>
+    </div>
+</body>
+</html>
