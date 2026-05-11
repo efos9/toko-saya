@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasir - Scan Warkot Otomatis</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <style>
+        *{margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif;}
+        body{background:#f5f5f5; padding:12px;}
+        .wadah{max-width:480px; margin:auto;}
+
+        /* === HEADER SCAN === */
+        .kotak-biru{background:#165DFF; color:#fff; border-radius:16px; padding:18px 12px; text-align:center; margin-bottom:15px;}
+        .kotak-biru h2{font-size:18px; margin-bottom:4px;}
+        .kotak-biru p{font-size:14px; opacity:0.9;}
+
+        /* === AREA PEMINDAI === */
+        .kotak-pindai{border:2px dashed #165DFF; border-radius:16px; background:#fff; padding:30px 10px; text-align:center; margin-bottom:18px;}
+        .ikon-barcode{font-size:45px; color:#165DFF; margin-bottom:8px;}
+        .teks-siap{color:#28a745; font-weight:bold; font-size:16px; margin:6px 0;}
+        .teks-arah{color:#666; font-size:14px;}
+        #pemindai{width:100%; height:260px; border-radius:12px; overflow:hidden;}
+
+        /* === DAFTAR BARANG SCAN === */
+        .daftar-barang{background:#fff; border-radius:12px; padding:12px; margin-bottom:15px; box-shadow:0 1px 4px #00000015;}
+        .baris-item{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee;}
+
+        /* === PEMBAYARAN === */
+        .kotak-bayar{background:#fff; border-radius:12px; padding:15px; box-shadow:0 1px 4px #00000015; margin-bottom:18px;}
+        .judul-bayar{color:#165DFF; font-weight:bold; font-size:16px; margin-bottom:12px; display:flex; align-items:center; gap:6px;}
+        .kotak-total{background:#f1f4f9; border-radius:8px; padding:15px; text-align:right; margin-bottom:12px;}
+        .label-total{font-size:14px; color:#666;}
+        .nilai-total{font-size:26px; font-weight:bold; color:#165DFF;}
+
+        /* === KALKULATOR ANGKA === */
+        .kalkulator{display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:12px;}
+        .tombol-angka{background:#e0e4eb; border:none; border-radius:8px; padding:14px; font-size:17px; font-weight:bold; cursor:pointer;}
+        .baris-tombol{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+        .tombol-merah{background:#dc3545; color:#fff; border:none; border-radius:8px; padding:12px; font-weight:bold;}
+        .tombol-biru{background:#165DFF; color:#fff; border:none; border-radius:8px; padding:12px; font-weight:bold;}
+
+        /* === HASIL PEMBAYARAN === */
+        .hasil{display:flex; justify-content:space-between; padding:8px 0; font-size:15px; font-weight:500;}
+
+        /* === NAVIGASI === */
+        .navigasi{margin-top:20px; text-align:center; padding-top:15px; border-top:1px solid #ddd;}
+        .navigasi a{color:#165DFF; font-weight:bold; text-decoration:none; margin:0 8px; font-size:14px;}
+    </style>
+</head>
+<body>
+    <div class="wadah">
+
+        <!-- HEADER -->
+        <div class="kotak-biru">
+            <h2>📟 SISTEM SCAN BARCODE</h2>
+            <p>Sama Indomaret • Langsung Buka Pemindai • Nota Sendiri</p>
+        </div>
+
+        <!-- AREA SCAN -->
+        <div class="kotak-pindai">
+            <div id="pemindai">
+                <div class="ikon-barcode">⎸ ⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽ ⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺ ⎹</div>
+                <div class="teks-siap">✅ PEMINDAI SIAP!</div>
+                <div class="teks-arah">Arahkan kode batang ke sini</div>
+            </div>
+        </div>
+
+        <!-- DAFTAR BARANG SCAN -->
+        <div class="daftar-barang" id="tampil-barang">
+            <p style="text-align:center; color:#888; padding:10px;">Belum ada barang di-scan</p>
+        </div>
+
+        <!-- PEMBAYARAN -->
+        <div class="kotak-bayar">
+            <div class="judul-bayar">💵 PEMBAYARAN - GAYA KALKULATOR</div>
+
+            <div class="kotak-total">
+                <div class="label-total">Total Belanja</div>
+                <div class="nilai-total" id="totalBelanja">Rp 0</div>
+            </div>
+
+            <div style="margin:8px 0;">
+                <input type="number" id="uangDiterima" placeholder="Uang Diterima" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:16px;">
+            </div>
+
+            <!-- KALKULATOR ANGKA -->
+            <div class="kalkulator">
+                <button class="tombol-angka" onclick="masukAngka(7)">7</button>
+                <button class="tombol-angka" onclick="masukAngka(8)">8</button>
+                <button class="tombol-angka" onclick="masukAngka(9)">9</button>
+                <button class="tombol-angka" onclick="masukAngka(4)">4</button>
+                <button class="tombol-angka" onclick="masukAngka(5)">5</button>
+                <button class="tombol-angka" onclick="masukAngka(6)">6</button>
+                <button class="tombol-angka" onclick="masukAngka(1)">1</button>
+                <button class="tombol-angka" onclick="masukAngka(2)">2</button>
+                <button class="tombol-angka" onclick="masukAngka(3)">3</button>
+                <button class="tombol-angka" onclick="masukAngka(0)" style="grid-column: 2/3;">0</button>
+            </div>
+
+            <!-- TOMBOL PULIHKAN - HAPUS -->
+            <div class="baris-tombol">
+                <button class="tombol-merah" onclick="hapusSemua()">🗑️ Hapus</button>
+                <button class="tombol-biru" onclick="pulihkan()">📤 Pulihkan</button>
+            </div>
+
+            <!-- KEMBALIAN -->
+            <div class="hasil">
+                <span>Kembalian :</span>
+                <span id="kembalian">Rp 0</span>
+            </div>
+        </div>
+
+        <!-- TOMBOL TINDAKAN -->
+        <div style="display:flex; gap:10px; margin:15px 0;">
+            <button class="tombol-biru" onclick="cetakNota()" style="flex:1; padding:12px; border-radius:8px; border:none; font-weight:bold;">🖨️ CETAK NOTA</button>
+            <button class="tombol-merah" onclick="transaksiBaru()" style="flex:1; padding:12px; border-radius:8px; border:none; font-weight:bold;">🆕 TRANSAKSI BARU</button>
+        </div>
+
+        <!-- ✅ NAVIGASI TERHUBUNG SEMUA HALAMAN -->
+        <div class="navigasi">
+            <a href="bernda.html">🏠 Beranda</a> |
+            <a href="profil.html">👤 Profil</a> |
+            <a href="barang-masuk-foto.html">📸 Barang Masuk</a> |
+            <a href="barang-keluar.html">📤 Barang Keluar</a> |
+            <a href="daftar.html">📋 Daftar Stok</a> |
+            <a href="daftar-barang.html">📋 Daftar Barang</a> |
+            <a href="admin.html">⚙️ Admin</a> |
+            <a href="tentang.html">ℹ️ Tentang</a>
+        </div>
+
+    </div>
+
+
+    <script>
+        let daftarBarang = JSON.parse(localStorage.getItem("daftarBarang")) || [];
+        let barangDipilih = [];
+        let scanner;
+
+        // === MULAI SCAN OTOMATIS ===
+        window.onload = () => { mulaiScan(); }
+
+        function mulaiScan(){
+            scanner = new Html5QrcodeScanner("pemindai", { fps:10, qrbox:240 });
+            scanner.render((hasil)=>{
+                scanner.clear();
+                let ketemu = daftarBarang.find(b => b.kode == hasil.trim());
+                if(ketemu){
+                    barangDipilih.push({...ketemu, jumlah:1});
+                    tampilkanDaftar();
+                    hitungTotalBelanja();
+                    alert(`✅ BERHASIL SCAN\nNama : ${ketemu.nama}\nHarga : Rp ${ketemu.harga}`);
+                    mulaiScan(); // langsung buka lagi scan barang selanjutnya
+                }else{
+                    alert("❌ BARANG TIDAK TERDAFTAR!\nMasukkan dulu di halaman Barang Masuk + Foto");
+                    mulaiScan();
+                }
+            });
+        }
+
+        // === TAMPILKAN BARANG YANG DI SCAN ===
+        function tampilkanDaftar(){
+            let wadah = document.getElementById("tampil-barang");
+            wadah.innerHTML = "";
+            if(barangDipilih.length === 0){
+                wadah.innerHTML = `<p style="text-align:center; color:#888; padding:10px;">Belum ada barang di-scan</p>`;
+                return;
+            }
+            barangDipilih.forEach((b,i)=>{
+                wadah.innerHTML += `
+                <div class="baris-item">
+                    <span>${i+1}. ${b.nama}</span>
+                    <span>${b.jumlah} x Rp ${b.harga.toLocaleString('id-ID')}</span>
+                </div>`;
+            })
+        }
+
+        // === HITUNG TOTAL BELANJA ===
+        function hitungTotalBelanja(){
+            let total = barangDipilih.reduce((sum,b)=> sum + (b.harga * b.jumlah), 0);
+            document.getElementById("totalBelanja").innerText = `Rp ${total.toLocaleString('id-ID')}`;
+            hitungKembalian();
+        }
+
+        // === KALKULATOR ANGKA ===
+        function masukAngka(angka){
+            let input = document.getElementById("uangDiterima");
+            input.value += angka;
+            hitungKembalian();
+        }
+
+        // === HITUNG KEMBALIAN ===
+        function hitungKembalian(){
+            let total = barangDipilih.reduce((sum,b)=> sum + (b.harga * b.jumlah), 0);
+            let bayar = parseInt(document.getElementById("uangDiterima").value) || 0;
+            let kembali = bayar - total;
+            document.getElementById("kembalian").innerText = kembali >=0 ? `Rp ${kembali.toLocaleString('id-ID')}` : `Kurang Rp ${Math.abs(kembali).toLocaleString('id-ID')}`;
+        }
+
+        // === TOMBOL HAPUS ===
+        function hapusSemua(){
+            document.getElementById("uangDiterima").value = "";
+            hitungKembalian();
+        }
+
+        // === TOMBOL PULIHKAN ===
+        function pulihkan(){
+            barangDipilih = [];
+            tampilkanDaftar();
+            hitungTotalBelanja();
+            document.getElementById("uangDiterima").value = "";
+            document.getElementById("kembalian").innerText = "Rp 0";
+            if(scanner) scanner.clear();
+            mulaiScan();
+        }
+
+        // ✅ TRANSAKSI BARU 100% BERFUNGSI & TERHUBUNG
+        function transaksiBaru(){
+            if(confirm("⚠️ Yakin mau mulai TRANSAKSI BARU?\nSemua data saat ini akan dihapus!")){
+                barangDipilih = [];
+                tampilkanDaftar();
+                hitungTotalBelanja();
+                document.getElementById("uangDiterima").value = "";
+                document.getElementById("kembalian").innerText = "Rp 0";
+                if(scanner) scanner.clear();
+                mulaiScan();
+                alert("✅ Siap transaksi baru! Silakan scan barang kembali.");
+            }
+        }
+
+        // === CETAK NOTA ===
+        function cetakNota(){
+            let tgl = new Date().toLocaleString('id-ID');
+            let isiTabel = "";
+            barangDipilih.forEach(b=>{
+                isiTabel += `<tr><td>${b.nama}</td><td>${b.jumlah}</td><td align="right">Rp ${b.harga.toLocaleString('id-ID')}</td><td align="right">Rp ${(b.harga*b.jumlah).toLocaleString('id-ID')}</td></tr>`
+            })
+            let total = barangDipilih.reduce((sum,b)=> sum + (b.harga * b.jumlah), 0);
+            let bayar = parseInt(document.getElementById("uangDiterima").value) || 0;
+            let kembali = bayar - total;
+
+            let nota = `
+            <div style="width:300px; padding:15px; font-family:Arial;">
+                <h2 style="text-align:center; color:#165DFF;">WAERUA INDOMARET</h2>
+                <p style="text-align:center; font-size:14px;">Wae Rua - Lamba Leda - Manggarai Timur<br>Telp: 0813-2791-3004</p>
+                <hr>
+                <p style="text-align:right; font-size:13px;">${tgl}</p>
+                <table width="100%" style="font-size:14px; margin:10px 0; border-collapse:collapse;">
+                    <tr><th>Barang</th><th>Jml</th><th>Harga</th><th>Jumlah</th></tr>
+                    ${isiTabel}
+                </table>
+                <hr>
+                <table width="100%" style="font-size:15px; font-weight:bold;">
+                    <tr><td>TOTAL</td><td align="right">Rp ${total.toLocaleString('id-ID')}</td></tr>
+                    <tr><td>Uang Diterima</td><td align="right">Rp ${bayar.toLocaleString('id-ID')}</td></tr>
+                    <tr><td>Kembalian</td><td align="right">Rp ${kembali.toLocaleString('id-ID')}</td></tr>
+                </table>
+                <hr>
+                <p style="text-align:center; margin-top:20px; font-size:13px;">Terima Kasih<br>Selamat Berbelanja Kembali</p>
+            </div>`;
+
+            let jendela = window.open('', '', 'width
+  
