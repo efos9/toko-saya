@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Akun Baru</title>
+    <style>
+        *{margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif;}
+        body{background:#f5f7fa; padding:20px;}
+        .wadah{max-width:420px; margin:auto; background:#ffffff; border-radius:16px; padding:25px; box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+        .judul{text-align:center; color:#2e7d32; font-size:22px; font-weight:bold; margin-bottom:25px; display:flex; align-items:center; justify-content:center; gap:8px;}
+        .kotak-isi{display:flex; flex-direction:column; gap:14px; margin-bottom:22px;}
+        input{padding:14px 16px; border:1px solid #dde2e8; border-radius:10px; font-size:15px; background:#fcfdfe;}
+        input:focus{outline:none; border-color:#2e7d32; box-shadow:0 0 0 2px rgba(46,125,50,0.12);}
+        .tombol-hijau{background:#2e7d32; color:#ffffff; border:none; padding:14px; border-radius:10px; font-size:16px; font-weight:bold; cursor:pointer; width:100%; transition:0.2s;}
+        .tombol-hijau:hover{background:#256b29;}
+        .navigasi{margin-top:18px; text-align:center; padding-top:16px; border-top:1px solid #eee; line-height:1.6;}
+        .navigasi a{color:#165DFF; font-weight:500; text-decoration:none; margin:0 6px; font-size:14px;}
+        .navigasi a:hover{text-decoration:underline;}
+        .pesan{padding:10px; border-radius:8px; margin-bottom:12px; display:none;}
+        .sukses{background:#e6f9e9; color:#2e7d32; border:1px solid:#b2e2b8;}
+        .gagal{background:#ffe9e9; color:#d32f2f; border:1px solid:#ffcaca;}
+    </style>
+</head>
+<body>
+    <div class="wadah">
+        <div class="judul">
+            <span>📝</span> BUAT AKUN BARU
+        </div>
+
+        <!-- PESAN NOTIFIKASI -->
+        <div class="pesan sukses" id="pesanSukses">✅ Berhasil daftar! Segera masuk ke akun Anda...</div>
+        <div class="pesan gagal" id="pesanGagal">❌ Ada yang salah, cek kembali isian Anda!</div>
+
+        <div class="kotak-isi">
+            <input type="text" id="namaLengkap" placeholder="Nama Lengkap">
+            <input type="text" id="username" placeholder="Nama Pengguna / Username">
+            <input type="number" id="nohp" placeholder="Nomor HP / WA">
+            <input type="password" id="sandi1" placeholder="Kata Sandi">
+            <input type="password" id="sandi2" placeholder="Ulangi Kata Sandi">
+            
+            <!-- ✅ TOMBOL SUDAH DIBERI KERJAAN -->
+            <button class="tombol-hijau" onclick="prosesDaftar()">✅ DAFTAR SEKARANG</button>
+        </div>
+
+        <!-- ✅ SEMUA TAUTAN SUDAH TERHUBUNG BENAR SESUAI NAMA BERKAS -->
+        <div class="navigasi">
+            <a href="index.html">🏠 Halaman Awal</a> |
+            <a href="login.html">🔑 Sudah Punya Akun? Masuk</a> |
+            <a href="beranda.html">🏡 Beranda</a>
+        </div>
+    </div>
+
+
+<script>
+// ✅ KODE PROSES DAFTAR - SUDAH LENGKAP BERFUNGSI
+function prosesDaftar(){
+    // Ambil semua nilai isian
+    let namaLengkap = document.getElementById("namaLengkap").value.trim();
+    let username = document.getElementById("username").value.trim();
+    let nohp = document.getElementById("nohp").value.trim();
+    let sandi1 = document.getElementById("sandi1").value.trim();
+    let sandi2 = document.getElementById("sandi2").value.trim();
+
+    // Sembunyikan pesan dulu
+    document.getElementById("pesanSukses").style.display = "none";
+    document.getElementById("pesanGagal").style.display = "none";
+
+    // ✅ CEK JANGAN ADA YANG KOSONG
+    if(!namaLengkap || !username || !nohp || !sandi1 || !sandi2){
+        document.getElementById("pesanGagal").innerHTML = "❌ Semua kolom WAJIB diisi, jangan ada yang kosong!";
+        document.getElementById("pesanGagal").style.display = "block";
+        return;
+    }
+
+    // ✅ CEK SANDI SAMA ATAU TIDAK
+    if(sandi1 !== sandi2){
+        document.getElementById("pesanGagal").innerHTML = "❌ Kata sandi TIDAK SAMA! Pastikan tulis ulang sama persis.";
+        document.getElementById("pesanGagal").style.display = "block";
+        return;
+    }
+
+    // ✅ CEK USERNAME SUDAH ADA / BELUM
+    let dataPengguna = JSON.parse(localStorage.getItem("dataPengguna")) || [];
+    let cekAda = dataPengguna.find(a => a.username === username);
+    if(cekAda){
+        document.getElementById("pesanGagal").innerHTML = "❌ Nama pengguna <b>"+username+"</b> SUDAH DIPAKAI! Pakai nama lain.";
+        document.getElementById("pesanGagal").style.display = "block";
+        return;
+    }
+
+    // ✅ SIMPAN DATA KE PENYIMPANAN SISTEM
+    dataPengguna.push({namaLengkap, username, nohp, sandi:sandi1});
+    localStorage.setItem("dataPengguna", JSON.stringify(dataPengguna));
+
+    // ✅ BERHASIL & LANGSUNG PINDAH HALAMAN
+    document.getElementById("pesanSukses").style.display = "block";
+    // Bersihkan isian
+    document.getElementById("namaLengkap").value="";
+    document.getElementById("username").value="";
+    document.getElementById("nohp").value="";
+    document.getElementById("sandi1").value="";
+    document.getElementById("sandi2").value="";
+
+    // Otomatis pindah ke halaman Login setelah 1,5 detik
+    setTimeout(()=>{
+        window.location.href = "login.html";
+    },1500);
+}
+</script>
+</body>
+  </html>
+  
